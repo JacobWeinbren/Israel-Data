@@ -18,4 +18,4 @@ def geocode_process(search):
     else:
         return None
 
-print(geocode_process('רבי צדוק,12 ‭'))
+#print(geocode_process('רבי צדוק,12 ‭'))

@@ -87,10 +87,10 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 				row = {'Settlement': settlement, 'Booth': booth, 'Address': address, "Search": search, 'Latitude': latitude, 'Longitude': longitude}
 				if not duplicate:
 					print("Writing at", value, row)
+					print("UNIQUE", unique)
 				else:
 					print("Duplicate")
 
-				print("UNIQUE", unique)
 
 				#Write to file
 				writer.writerow(row)
