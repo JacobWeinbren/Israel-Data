@@ -1,0 +1,16 @@
+import googlemaps
+
+#Israel
+#34.2654333839, 29.5013261988, 35.8363969256, 33.2774264593
+
+#Palestine
+#31.2201289  32.5521479  34.0689732  35.5739235
+
+import key
+
+def geocode_process(search):
+    result = gmaps.geocode(search, components={"country": ['IL', 'PS']}, bounds={"southwest": (32.922908,29.003327),"northeast": (37.130672,34.293521)}, region:"il")
+    if len(result):
+        return result[0]['geometry']['location']
+    else:
+        return None
