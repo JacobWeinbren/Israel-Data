@@ -101,4 +101,8 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 
 #https://bechirot24.bechirot.gov.il/election/Kneset24/Pages/BallotsList.aspx
 #24th Knesset
-geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24')
+#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24')
+
+#https://bechirot23.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx
+#23rd Knesset
+geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23')
