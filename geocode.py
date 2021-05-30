@@ -9,7 +9,7 @@ import googlemaps
 import key
 
 def geocode_process(search):
-    result = gmaps.geocode(search, components={"country": ['IL', 'PS']}, bounds={"southwest": (32.922908,29.003327),"northeast": (37.130672,34.293521)}, region:"il")
+    result = gmaps.geocode(search, components={"country": ['IL', 'PS']}, bounds={"southwest": (29.003327, 32.922908),"northeast": (34.293521, 37.130672)}, region:"il")
     if len(result):
         return result[0]['geometry']['location']
     else:
