@@ -9,9 +9,15 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 	outname = 'out/' + outname + '.csv'
 	file_exists = os.path.isfile(outname)
 
+	#Skip past this value
 	pass_settlement = 0
 	pass_booth = 0
+
+	#Unique calls to Geocoder
 	unique = 0
+
+	#If to write to file
+	write = True
 
 	if file_exists:
 		with open (outname) as file:
@@ -25,11 +31,8 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 				pass_booth = data[-1]['Booth']
 				print("Skipping Past Settlement", pass_settlement, "and Booth", pass_booth)
 				write = False
-			else:
-				write = True
 	else:
 		print("Creating file at", outname)
-		write = True
 
 	with open (outname, 'a') as file:
 
