@@ -20,7 +20,6 @@ python stations_geocode.py
 
 Knesset Election | Year | Polling Stations | Results | Found Necessary Data? | Results Notes | Station Notes |
 | :------------: | :--: | :--------------: | :-----: | :--------: | :-----------: |  :----------: |
-| 17th Knesset | 2006 | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-17/heb/Results/Main_Results-2.html) | | ✅ | | *Converted xls to xlsx* |  Stations on same file as results |
 | 13th Knesset | 1992 | Only being done on a district level | Scanned manually from Israeli Archives | ✅ | | |
 | 14th Knesset | 1996 | | [Knesset/Gov Site](https://bechirot24.bechirot.gov.il/election/Documents/%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA%20%D7%A7%D7%95%D7%93%D7%9E%D7%95%D7%AA/results_14.xls) | ❌ | Taken from [Knesset/Gov Site](https://bechirot24.bechirot.gov.il/election/Pages/PreviousElection.aspx) |  Stations on same file as results | 
 | 15th Knesset | 1999 | [Israeli Archives](https://www.archives.gov.il/archives/Archive/0b07170680025073/File/0b07170680c4d9d9) | [Knesset/Gov Site](https://bechirot24.bechirot.gov.il/election/Documents/%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA%20%D7%A7%D7%95%D7%93%D7%9E%D7%95%D7%AA/results_15.xls) | ✅ | Converted xls to xlsx | Transcription Necessary |
