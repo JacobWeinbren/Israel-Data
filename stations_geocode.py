@@ -100,9 +100,21 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 
 
 #https://bechirot24.bechirot.gov.il/election/Kneset24/Pages/BallotsList.aspx
+#https://votes24.bechirot.gov.il/
 #24th Knesset
 #geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24')
 
 #https://bechirot23.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx
+#https://votes23.bechirot.gov.il/
 #23rd Knesset
-geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23')
+#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23')
+
+#https://bechirot22.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx
+#https://votes22.bechirot.gov.il/
+#22nd Knesset
+#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22')
+
+#https://bechirot21.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx
+#https://votes21.bechirot.gov.il/
+#21st Knesset
+geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '21')
