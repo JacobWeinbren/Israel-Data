@@ -18,7 +18,7 @@ def arc_process(search):
                     'f': 'pjson'
                 }
             )
-            
+
             result = result.json()['candidates']
 
             if len(result):

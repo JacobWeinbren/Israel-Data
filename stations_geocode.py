@@ -111,19 +111,19 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 
 
 #24th Knesset
-#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24', 'Google')
+#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24', 'ArcGIS')
 
 #23rd Knesset
-#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23', 'Google')
+#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23', 'ArcGIS')
 
 #22nd Knesset
-#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22', 'Google')
+geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22', 'ArcGIS')
 
 #21st Knesset
 #geocode_sheet('stations/21.xlsx', 'DataSheet', 2, 4, 3, 6, '21', 'ArcGIS')
 
 #20th Knesset
-geocode_sheet('stations/20.xlsx', 'DataSheet', 2, 4, 3, 5, '20', 'ArcGIS')
+#geocode_sheet('stations/20.xlsx', 'DataSheet', 2, 4, 3, 5, '20', 'ArcGIS')
 
 #19th Knesset
 #geocode_sheet('stations/19.xlsx', 'Data', 8, 6, 9, 5, '19', 'ArcGIS')
