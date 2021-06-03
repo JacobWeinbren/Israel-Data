@@ -1,9 +1,10 @@
 from openpyxl import load_workbook
 import csv, os
-from geocode import geocode_process
+from geocode_google import google_process
+from geocode_arcgis import arc_process
 
-def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_col, address_col, outname):
-	wb = load_workbook(filename = file)
+def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_col, address_col, outname, source):
+	wb = load_workbook(filename = file, data_only = 'True')
 	sheet_ranges = wb[sheetname]
 
 	outname = 'out/' + outname + '.csv'
@@ -64,15 +65,25 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 					output = prev_output
 					duplicate = True
 				else:
-					search = address
-					output = geocode_process(search)
+					search = address + ', ' + settlement_name
+
+					if source == 'Google':
+						output = google_process(search)
+					else:
+						output = arc_process(search)
+
 					duplicate = False
 					unique += 1
 				
 					#Try with the area to see if it helps
 					if output == None:
-						search = address + ', ' + settlement_name
-						output = geocode_process(search)
+						search = address 
+						
+						if source == 'Google':
+							output = google_process(search)
+						else:
+							output = arc_process(search)
+
 						if output == None:
 							latitude, longitude = None, None
 						else:
@@ -87,7 +98,7 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 				row = {'Settlement': settlement, 'Booth': booth, 'Address': address, "Search": search, 'Latitude': latitude, 'Longitude': longitude}
 				if not duplicate:
 					print("Writing at", value, row)
-					print("Unique", unique)
+					print("Unique", unique, source)
 				else:
 					print("Duplicate")
 
@@ -100,15 +111,19 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 
 
 #24th Knesset
-#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24')
+#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24', 'Google')
 
 #23rd Knesset
-#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23')
+#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 0, 2, 11, '23', 'Google')
 
 #22nd Knesset
-#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22')
+#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22', 'Google')
 
 #21st Knesset
-#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '21')
+#geocode_sheet('stations/21.xlsx', 'DataSheet', 2, 4, 3, 6, '21', 'ArcGIS')
 
 #20th Knesset
+#geocode_sheet('stations/20.xlsx', 'DataSheet', 2, 4, 3, 5, '20', 'ArcGIS')
+
+#19th Knesset
+geocode_sheet('stations/19.xlsx', 'Data', 8, 6, 7, 5, '19', 'ArcGIS')

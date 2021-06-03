@@ -6,7 +6,7 @@
 
 from key import gmaps
 
-def geocode_process(search):
+def google_process(search):
     result = gmaps.geocode(
         search, 
         components={"country": ['IL', 'PS']}, 
@@ -17,5 +17,3 @@ def geocode_process(search):
         return result[0]['geometry']['location']
     else:
         return None
-
-#print(geocode_process('רבי צדוק,12 ‭'))
