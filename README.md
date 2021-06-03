@@ -18,6 +18,7 @@ python stations_geocode.py
 
 ## Sources
 
+*Query?* Refers to a change I made during development, to query the admin area with the street name. The difficulty is that administrative areas are sometimes located miles away from the actual street - but generally the context improves accuracy 
 Knesset Election | Year | Polling Stations | Results | Found Necessary Data? | Results Notes | Station Notes | Geocoding Method | First Attempt Query?
 | :------------: | :--: | :--------------: | :-----: | :-------------------: | :-----------: |  :----------: | :--------------: | :--------------: |
 | 13th Knesset | 1992 | N/A for Project | Scanned manually from Israeli Archives | ✅ | | Transcription required |
