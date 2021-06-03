@@ -17,7 +17,9 @@ def arc_process(search):
                     'sourceCountry': 'ISR',
                     'f': 'pjson'
                 }
-            ).json()['candidates']
+            )
+            
+            result = result.json()['candidates']
 
             if len(result):
                 count = 0
@@ -28,5 +30,5 @@ def arc_process(search):
         else:
             return None
     except:
-        count ++ 1
+        count += 1
         arc_process(search)
