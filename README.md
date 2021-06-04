@@ -24,6 +24,8 @@ District 1192 Booth 50 9990 for the 17th Knesset inferred from context
 
 District 1358 Booth 10 for the 17th Knesset inferred from context
 
+District 2370 Booth 110 150 250-310 for the Knesset inferred from context
+
 ## Installation
 
 1. Clone the repository →
