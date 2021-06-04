@@ -20,6 +20,8 @@ District 509 Booths 14 16 17 for 19th Knesset inferred from context
 
 District 351 Booth 10 for the 17th Knesset inferred from context
 
+District 1192 Booth 50 9990 for the 17th Knesset inferred from context
+
 ## Installation
 
 1. Clone the repository →
