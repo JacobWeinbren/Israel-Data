@@ -2,6 +2,16 @@
 
 Mapping Israel's Elections 1992-2021
 
+## Notes
+
+Searches go by address and settlement name. Return ballots are either too specific or too inspecific to be useful context.
+
+646 7 8 and 9 for 19th Knesset inferred from context
+
+509 14 16 17 for 19th Knesset inferred from context
+
+Thanks to the Israeli Election Commision for data and support. And many thanks To Dr. Gidi Nevo and Prof. Michal Krumer-Nevo for visiting the Israeli Archives for this project. 
+
 ## Installation
 
 1. Clone the repository →
@@ -26,7 +36,7 @@ Knesset Election | Year | Polling Stations | Results | Found Necessary Data? | R
 | 16th Knesset | 2003 | | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-16/heb/results/regions.html) | ❌ | Converted xls to xlsx | Taken from [Knesset/Gov Site](https://bechirot24.bechirot.gov.il/election/Pages/PreviousElection.aspx) |
 | 17th Knesset | 2006 | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-17/heb/Results/Main_Results-2.html) | | ✅ | Converted xls to xlsx |  Stations on same file as results |
 | 18th Knesset | 2009 | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-18/heb/results/main_results-2.html) | | ❌ |  Might need to scrape from site |
-| 19th Knesset | 2013 | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AllStations.pdf) | [Archive of Knesset/Gov Site](http://web.archive.org/web/20130219021654/https://www.votes-19.gov.il/ballotresults) | ✅ | Converted xls to xlsx | Stations taken from [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AboutIndex.html), then run through [Adobe](https://www.adobe.com/uk/acrobat/online/pdf-to-word.html) and processed through [docx2csv](https://github.com/ivbeg/docx2csv)
+| 19th Knesset | 2013 | [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AllStations.pdf) | [Archive of Knesset/Gov Site](http://web.archive.org/web/20130219021654/https://www.votes-19.gov.il/ballotresults) | ✅ | Converted xls to xlsx | Stations taken from [Knesset/Gov Site](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AboutIndex.html), then run through [Adobe](https://www.adobe.com/uk/acrobat/online/pdf-to-word.html) and processed through [docx2csv](https://github.com/ivbeg/docx2csv) and then merge.py | ArcGIS
 | 20th Knesset | 2015 | [Knesset/Gov Site](https://www.bechirot20.gov.il/election/Kneset20/Pages/BallotsList.aspx) | [Archive of Knesset/Gov Site](http://web.archive.org/web/20150906153312/http://www.votes20.gov.il/) | ✅ | | Copied and pasted spreadsheet from notebook to prevent processing errors | ArcGIS | 
 | 21st Knesset | 2019 | [Knesset/Gov Site](https://bechirot21.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx) | [Knesset/Gov Site](https://votes21.bechirot.gov.il/) | ✅ | Converted xls to xlsx | | ArcGIS | 
 | 22nd Knesset | 2019 | [Knesset/Gov Site](https://bechirot22.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx) | [Knesset/Gov Site](https://votes22.bechirot.gov.il/) | ✅ | | | ArcGIS |
