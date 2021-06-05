@@ -126,4 +126,10 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 #geocode_sheet('stations/20.xlsx', 'DataSheet', 2, 4, 3, 5, '20', 'ArcGIS')
 
 #19th Knesset
-geocode_sheet('stations/19.xlsx', 'DataSheet', 8, 6, 7, 5, '19', 'ArcGIS')
+#geocode_sheet('stations/19.xlsx', 'DataSheet', 8, 6, 7, 5, '19', 'ArcGIS')
+
+#17th Knesset
+#geocode_sheet('results/17.xlsx', 'DataSheet', 0, 1, 2, 3, '17', 'ArcGIS')
+
+#14th Knesset
+geocode_sheet('results/14.xlsx', 'DataSheet', 0, 1, 3, 4, '14', 'ArcGIS')
