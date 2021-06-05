@@ -6,6 +6,9 @@ Mapping Israel's Elections 1992-2021
 
 Searches go by address and settlement name. Return ballots are either too specific or too inspecific to be useful context.
 
+See inferred for addresses inferred (and those which couldn't).
+
+16th and 17th Knesset has weird ballot numbering scheme - assuming to divide by 10 for consistency.
 
 Any excel files for the 21st election and before have been converted from xls to xlsx
 
