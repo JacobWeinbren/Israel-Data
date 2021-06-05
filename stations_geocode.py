@@ -91,6 +91,9 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 					else:
 						latitude, longitude = output['lat'], output['lng']
 
+				if 'UnknownLocationForAddress' in address:
+					latitude, longitude = None, None
+
 				prev_address = address
 				prev_output = output
 				
@@ -132,4 +135,4 @@ def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_co
 #geocode_sheet('results/17.xlsx', 'DataSheet', 0, 1, 2, 3, '17', 'ArcGIS')
 
 #14th Knesset
-geocode_sheet('results/14.xlsx', 'DataSheet', 0, 1, 3, 4, '14', 'ArcGIS')
+geocode_sheet('results/14.xlsx', 'DataSheet', 0, 3, 4, 5, '14', 'ArcGIS')

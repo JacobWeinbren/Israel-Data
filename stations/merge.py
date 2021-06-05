@@ -33,6 +33,6 @@ for table_num, table in enumerate(doc.tables):
 		print(table_num, row_num)
 
 df = pd.DataFrame(data)
-writer = pd.ExcelWriter('19.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('19-temp.xlsx', engine='xlsxwriter')
 df.to_excel(writer, sheet_name='DataSheet', index=False)
 writer.save()
