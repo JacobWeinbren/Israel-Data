@@ -4,11 +4,13 @@ Mapping Israel's Elections 1992-2021
 
 ## Notes
 
-Searches go by address and settlement name. Return ballots are either too specific or too inspecific to be useful context.
+Searches go by address and settlement/district name. Return ballots are either too specific or too inspecific to be useful context.
 
 See `inferred.xlsx` for addresses inferred (and those which couldn't).
 
 16th and 17th Knesset has weird ballot numbering scheme - assuming to divide by 10 for consistency.
+
+Decimal points imply multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 
 Any excel files for the 21st Knesset and before have been converted from `.xls` to `.xlsx`
 
