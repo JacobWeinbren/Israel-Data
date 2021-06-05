@@ -10,7 +10,7 @@ See `inferred.xlsx` for addresses inferred (and those which couldn't).
 
 16th and 17th Knesset has weird ballot numbering scheme - assuming to divide by 10 for consistency.
 
-Any excel files for the 21st election and before have been converted from `.xls` to `.xlsx`
+Any excel files for the 21st Knesset and before have been converted from `.xls` to `.xlsx`
 
 Thanks to the Israeli Election Commision for data and support. And many thanks To Dr. Gidi Nevo and Prof. Michal Krumer-Nevo for visiting the Israeli Archives for this project. 
 
