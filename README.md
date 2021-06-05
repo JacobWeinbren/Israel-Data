@@ -11,21 +11,6 @@ Any excel files for the 21st election and before have been converted from xls to
 
 Thanks to the Israeli Election Commision for data and support. And many thanks To Dr. Gidi Nevo and Prof. Michal Krumer-Nevo for visiting the Israeli Archives for this project. 
 
-## Inferred Addresses
-District 646 Booths 7 8 and 9 for 19th Knesset inferred from context
-
-District 509 Booths 14 16 17 for 19th Knesset inferred from context
-
-District 509 Booths 14 16 17 for 19th Knesset inferred from context
-
-District 351 Booth 10 for the 17th Knesset inferred from context
-
-District 1192 Booth 50 9990 for the 17th Knesset inferred from context
-
-District 1358 Booth 10 for the 17th Knesset inferred from context
-
-District 2370 Booth 110 150 250-310 for the Knesset inferred from context
-
 ## Installation
 
 1. Clone the repository →
