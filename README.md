@@ -4,21 +4,19 @@ Mapping Israel's Elections 1992-2021
 
 ## How it Works
 
-- Data is downloaded into the directory `data`, using 
+1. Data is downloaded into the directory `data`, using the sites listed under Sources
+2. Manually, inferred polling stations are written into `data/inferred.xlsx`. This is done by looking
+3. Polling Stations are processed using `scripts/stations_process.py`, and tabluated into `input/stations`
+4. Polling Stations are geocoded using `scripts/stations_geocode.py`, and results are produced in `output/stations`. This takes a long time.
 
 ## Notes
 
-## Notes
+- The geocoding name is calculated through address + ', ' + settlement name
+- See `inferred.xlsx` for addresses inferred (and those which couldn't).
+- 16th and 17th Knesset requires dividing by 10 to keep ballot numbers
+- Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 
-Searches go by address and settlement/district name. Return ballots are either too specific or too inspecific to be useful context.
-
-See `inferred.xlsx` for addresses inferred (and those which couldn't).
-
-16th and 17th Knesset has weird ballot numbering scheme - assuming to divide by 10 for consistency.
-
-Decimal points imply multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
-
-Any excel files for the 21st Knesset and before have been converted from `.xls` to `.xlsx`
+## Thanks
 
 Thanks to the Israeli Election Commision for data and support. And many thanks To Dr. Gidi Nevo and Prof. Michal Krumer-Nevo for visiting the Israeli Archives for this project.
 
@@ -28,12 +26,6 @@ Thanks to the Israeli Election Commision for data and support. And many thanks T
 
 ```bash
 git clone https://github.com/JacobWeinbren/Israel-Data/
-```
-
-2. Geocode the addresses →
-
-```bash
-python stations_geocode.py
 ```
 
 ## Sources
@@ -79,4 +71,5 @@ Results can generally be found through [the most recent Knesset Site](https://be
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
 
