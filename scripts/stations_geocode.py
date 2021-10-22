@@ -72,6 +72,8 @@ for name in files:
 				if write:	
 					#Creates the search
 					search = address_name + ', ' + settlement_name
+
+					#Checks Reference
 					if search in addresses.keys():
 						latitude, longitude = addresses[search]
 					else:
@@ -81,11 +83,17 @@ for name in files:
 						if output == None:
 							search = address_name
 
-							if output == None:
-								latitude, longitude = None, None
+							#Checks reference again
+							if search in addresses.keys():
+								latitude, longitude = addresses[search]
 							else:
-								latitude, longitude = output['lat'], output['lng']
-								addresses[search] = (latitude, longitude)
+								output = arc_process(search)
+
+								if output == None:
+									latitude, longitude = None, None
+								else:
+									latitude, longitude = output['lat'], output['lng']
+									addresses[search] = (latitude, longitude)
 						else:
 							latitude, longitude = output['lat'], output['lng']
 							addresses[search] = (latitude, longitude)
