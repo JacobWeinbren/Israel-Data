@@ -30,7 +30,7 @@ git clone https://github.com/JacobWeinbren/Israel-Data/
 
 2. Create venv and enter to scripts
 
-```
+```bash
 python3 -m venv israel_env
 source israel_env/bin/activate
 cd scripts
@@ -38,7 +38,7 @@ cd scripts
 
 3. Run scripts
 
-```
+```bash
 python process_19.py
 python stations_process.py
 python stations_geocode.py
