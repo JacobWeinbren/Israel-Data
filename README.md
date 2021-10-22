@@ -13,12 +13,12 @@ Mapping Israel's Elections 1992-2021
 
 - The geocoding addresses is the address_name + ', ' + settlement name
 - Double Envelopes (Military Ballots) are skipped
-- 16th and 17th Knesset requires dividing by 10 to keep ballot numbers
+- 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 
 ## Thanks
 
-Thanks to the Israeli Election Commision for data and support. And many thanks To Dr. Gidi Nevo and Prof. Michal Krumer-Nevo for visiting the Israeli Archives for this project.
+Thanks to the Israeli Election Commision for data and support. And many thanks my relatives in particular Gidi for helping so much along the way.
 
 ## Installation
 

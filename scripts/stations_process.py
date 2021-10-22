@@ -1,6 +1,6 @@
 import xlrd, re, csv
 
-def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col, booth_num_col, settlement_name_col, address_name_col):
+def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col, booth_num_col, settlement_name_col, address_name_col, extra_booth_num_col = None):
 
     """
     Reads Workbook
@@ -25,8 +25,26 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
         settlement_number = row[settlement_num_col].value
 
         if settlement_number != '\x1a':
+
+            #16 and 17 numbers are multiplied by 10 
+            if election_num == 16 or election_num == 17:
+                booth_number = row[booth_num_col].value / 10
+            
+            #Numbering for polling booths at stations
+            elif election_num == 14:
+                booth_number = float(
+                    str(
+                        int(round(row[booth_num_col].value, 0))
+                    ) + 
+                    "."  +
+                    str(
+                        int(round(row[extra_booth_num_col].value, 0))
+                    )
+                )    
+            else:
+                booth_number = row[booth_num_col].value
+
             settlement_number = int(settlement_number)
-            booth_number = row[booth_num_col].value
 
             #Removes multiple spaces and extra spaces
             address_name = str(row[address_name_col].value)
@@ -59,6 +77,7 @@ read_sheet(
     booth_num_col = 1,
     settlement_name_col = 3,
     address_name_col = 4,
+    extra_booth_num_col = 2
 )
 
 #2006
@@ -76,13 +95,25 @@ read_sheet(
 
 #2013
 read_sheet(
-    election_num = 20, 
+    election_num = 19, 
     workbook = '../output/19_fixed.xlsx', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 8,
     booth_num_col = 6,
     settlement_name_col = 9,
+    address_name_col = 5,
+)
+
+#2015
+read_sheet(
+    election_num = 20, 
+    workbook = '../data/20/TellThePolls.9.3.xls', 
+    worksheet = "DataSheet",
+    skip_rows = 1,
+    settlement_num_col = 2,
+    booth_num_col = 4,
+    settlement_name_col = 1,
     address_name_col = 5,
 )
 
@@ -93,7 +124,7 @@ read_sheet(
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
-    booth_num_col = 0,
+    booth_num_col = 4,
     settlement_name_col = 1,
     address_name_col = 6,
 )
@@ -105,7 +136,7 @@ read_sheet(
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
-    booth_num_col = 0,
+    booth_num_col = 4,
     settlement_name_col = 1,
     address_name_col = 6,
 )
@@ -117,7 +148,7 @@ read_sheet(
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 5,
-    booth_num_col = 0,
+    booth_num_col = 9,
     settlement_name_col = 2,
     address_name_col = 11,
 )
