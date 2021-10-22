@@ -28,7 +28,7 @@ for name in files:
 	write = True
 
 	#If there exists a file, check the last line, and then set it as the skip value
-	if os.path.isfile(outname): 
+	if os.path.isfile(outname):
 		with open (outname, 'r') as file:
 
 			#Read file
@@ -48,9 +48,9 @@ for name in files:
 						write = False
 
 	else:
-		with open (outname, 'r') as file:
-			writer = csv.DictWriter(file, delimiter=',', lineterminator='\n', fieldnames=headers)
-			writer.writerows(headers)
+		with open (outname, 'w') as file:
+			writer = csv.writer(file, delimiter=',', lineterminator='\n')
+			writer.writerows([headers])
 
 	#Read all the in the station addresses
 	with open(inname, 'r') as file:
