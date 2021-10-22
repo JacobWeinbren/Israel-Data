@@ -15,7 +15,7 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
     Iterates Worksheet
     """
 
-    data = [['Settlement Number', 'Booth Number', 'Address Name', 'Settlement Name']]
+    data = [['Settlement Number', 'Booth Number', 'Settlement Name', 'Address Name']]
 
     for i in range(skip_rows):
         next(rows)
@@ -53,14 +53,14 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
             settlement_name = str(row[settlement_name_col].value)
             settlement_name = re.sub('\s{2,}', ' ', settlement_name).strip()
 
-            data.append([settlement_number, booth_number, address_name, settlement_name])
+            data.append([settlement_number, booth_number, settlement_name, address_name])
 
     """
     Writes to outfile
     """
 
     with open(outname, 'w', newline='') as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, delimiter=',', lineterminator='\n')
         writer.writerows(data)
 
 """

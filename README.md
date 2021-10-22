@@ -32,6 +32,7 @@ git clone https://github.com/JacobWeinbren/Israel-Data/
 
 ```
 python3 -m venv israel_env
+source israel_env/bin/activate
 cd scripts
 ```
 

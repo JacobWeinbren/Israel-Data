@@ -1,138 +1,108 @@
-from openpyxl import load_workbook
-import csv, os
-from geocode_google import google_process
+import csv, os.path
 from geocode_arcgis import arc_process
 
-def geocode_sheet(file, sheetname, settlement_col, booth_col, settlement_name_col, address_col, outname, source):
-	wb = load_workbook(filename = file, data_only = 'True')
-	sheet_ranges = wb[sheetname]
+#Files to iterate over
+files = [14,17,19,20,21,22,23,24]
 
-	outname = 'out/' + outname + '.csv'
-	file_exists = os.path.isfile(outname)
+#Headers for output
+headers = [
+	'Settlement Number',
+	'Booth Number',
+	'Settlement Name',
+	'Address Name',
+	'Search',
+	'Latitude',
+	'Longitude'
+]
 
-	#Skip past this value
-	pass_settlement = 0
-	pass_booth = 0
+#To reduce API calls
+addresses = {}
 
-	#Unique calls to Geocoder
-	unique = 0
+for name in files:
+	#Get File Names
+	name = str(name)
+	inname = '../output/stations/' + name + '.csv'
+	outname = '../output/locations/' + name + '.csv'
 
 	#If to write to file
 	write = True
 
-	if file_exists:
-		with open (outname) as file:
-			#Reading CSV, skipping values already geocoded 
-			reader = csv.DictReader(file, delimiter=",")
-			data = list(reader)
+	#If there exists a file, check the last line, and then set it as the skip value
+	if os.path.isfile(outname): 
+		with open (outname, 'r') as file:
 
-			#Gets last value
-			if len(data):
-				pass_settlement = data[-1]['Settlement']
-				pass_booth = data[-1]['Booth']
-				print("Skipping Past Settlement", pass_settlement, "and Booth", pass_booth)
-				write = False
+			#Read file
+			skip_reader = csv.DictReader(file, delimiter=',', lineterminator='\n', fieldnames=headers[:len(headers)-3])
+
+			#Count length
+			length = sum(1 for row in skip_reader)
+			file.seek(0)
+
+			if length > 0:
+				#Find the last value
+				for i, line in enumerate(skip_reader):
+					if i == length - 1:
+						skip_settlement = line["Settlement Number"]
+						skip_booth = line["Booth Number"]
+						print("Skipping to", line["Settlement Name"], line["Settlement Number"], line["Booth Number"])
+						write = False
+
 	else:
-		print("Creating file at", outname)
+		with open (outname, 'r') as file:
+			writer = csv.DictWriter(file, delimiter=',', lineterminator='\n', fieldnames=headers)
+			writer.writerows(headers)
 
-	with open (outname, 'a') as file:
+	#Read all the in the station addresses
+	with open(inname, 'r') as file:
+		data_reader = csv.DictReader(file, delimiter=',', lineterminator='\n')
+		next(data_reader)
 
-		#Reduces duplicates
-		prev_address = ''
-		prev_output = ''
+		#Write to output
+		with open (outname, 'a') as file:
 
-   		#Writing CSV
-		headers = ['Settlement', 'Booth', 'Address', 'Search', 'Latitude', 'Longitude']
-		writer = csv.DictWriter(file, delimiter=',', lineterminator='\n', fieldnames=headers)
-   		
-		if not file_exists:
-			writer.writeheader()
+			writer = csv.DictWriter(file, delimiter=',', lineterminator='\n', fieldnames=headers)
 
-        #Iterate input
-		iterinput = iter(sheet_ranges.rows)
-		next(iterinput)
-		for value, row in enumerate(iterinput):
-			#Gets metadata
-			settlement = row[settlement_col].value
-			booth = row[booth_col].value
-			address = row[address_col].value
-			settlement_name = row[settlement_name_col].value
+			for i, line in enumerate(data_reader):
 
-			if write:
+				settlement_num = line['Settlement Number']
+				booth_num = line['Booth Number']
+				settlement_name = line['Settlement Name']
+				address_name = line['Address Name']
 
-				#Checks it's not a duplicate
-				if address == prev_address:
-					output = prev_output
-					duplicate = True
-				else:
-					search = address + ', ' + settlement_name
+				if write:	
+					#Creates the search
+					search = address_name + ', ' + settlement_name
+					output = arc_process(search)
 
-					if source == 'Google':
-						output = google_process(search)
-					else:
-						output = arc_process(search)
-
-					duplicate = False
-					unique += 1
-				
-					#Try with the area to see if it helps
+					#If the search doesn't exist, use the address without the settlement
 					if output == None:
-						search = address 
-						
-						if source == 'Google':
-							output = google_process(search)
-						else:
-							output = arc_process(search)
+						search = address_name
 
 						if output == None:
+							print("Error")
 							latitude, longitude = None, None
 						else:
 							latitude, longitude = output['lat'], output['lng']
 					else:
 						latitude, longitude = output['lat'], output['lng']
 
-				if 'UnknownLocationForAddress' in address:
-					latitude, longitude = None, None
 
-				prev_address = address
-				prev_output = output
+					row = {
+						'Settlement Number': settlement_num, 
+						'Booth Number': booth_num, 
+						'Settlement Name': settlement_name, 
+						'Address Name': address_name, 
+						'Search': search, 
+						'Latitude': latitude, 
+						'Longitude': longitude
+					}
+					writer.writerow(row)
+					file.flush()
+
+					if i % 100 == 0:
+						print("Knesset", name, "Number", i)
 				
-				#Write to file
-				row = {'Settlement': settlement, 'Booth': booth, 'Address': address, "Search": search, 'Latitude': latitude, 'Longitude': longitude}
-				if not duplicate:
-					print("Writing at", value, row)
-					print("Unique", unique, source)
+				#Skips to the current working line
 				else:
-					print("Duplicate")
-
-				#Write to file
-				writer.writerow(row)
-				file.flush()
-
-			if (str(settlement) == str(pass_settlement) and str(booth) == str(pass_booth)):
-				write = True
-
-
-#24th Knesset
-#geocode_sheet('stations/24.xlsx', 'DataSheet', 2, 4, 3, 6, '24', 'ArcGIS')
-
-#23rd Knesset
-#geocode_sheet('stations/23.xlsx', 'DataSheet', 5, 9, 6, 11, '23', 'ArcGIS')
-
-#22nd Knesset
-#geocode_sheet('stations/22.xlsx', 'DataSheet', 2, 4, 3, 6, '22', 'ArcGIS')
-
-#21st Knesset
-#geocode_sheet('stations/21.xlsx', 'DataSheet', 2, 4, 3, 6, '21', 'ArcGIS')
-
-#20th Knesset
-#geocode_sheet('stations/20.xlsx', 'DataSheet', 2, 4, 3, 5, '20', 'ArcGIS')
-
-#19th Knesset
-#geocode_sheet('stations/19.xlsx', 'DataSheet', 8, 6, 7, 5, '19', 'ArcGIS')
-
-#17th Knesset
-#geocode_sheet('results/17.xlsx', 'DataSheet', 0, 1, 2, 3, '17', 'ArcGIS')
-
-#14th Knesset
-#geocode_sheet('results/14.xlsx', 'DataSheet', 0, 3, 4, 5, '14', 'ArcGIS')
+					if (line['Settlement Number'] == skip_settlement) and (line['Booth Number'] == skip_booth):
+						write = True
