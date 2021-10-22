@@ -25,3 +25,4 @@ def arc_process(search):
             return None
     except Exception as e: 
         print(e)
+        return None
