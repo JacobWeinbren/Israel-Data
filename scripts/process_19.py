@@ -3,12 +3,16 @@ from docx import Document
 import pandas as pd
 import re
 
+"""
+The 19th Knesset is a PDF, this makes it a .xlsx file
+"""
+
 #Read Document
 path = "../data/19/AllStations.docx"
 doc = Document(path)
 
 #To add space after numbers
-rx = re.compile(r'(?<=\d)(?=[^\d\s])|(?<=[^\d\s])(?=\d)')
+rx = re.compile(r'(-?[0-9]+\.?[0-9]*)')
 
 #Headers
 data = [['\nצורפ ל-', 'בוחרי\nכנסת', 'נגישה\nמיוחדת', '\nנגישה', '\nמקום קלפי', '\nכתובת קלפי', 'סמל\nקלפי', '\nשם ישוב בחירות', 'סמל ישוב\nבחירות', '\nשם ועדה', '\nסמל ועדה']]
@@ -27,13 +31,13 @@ for table_num, table in enumerate(doc.tables):
             row_text[6] = row_text[6].replace("(","")
 
             #add space to numbers and convert to type
-            for val in range(0,1):
+            for val in range(0,11):
                 temp = row_text[val]
                 temp = fast_real(temp)
 
                 if isinstance(temp, str):
-                    temp = rx.sub(' ', temp)
-                    temp.rstrip(',').strip()
+                    temp = rx.sub(" \\1 ", temp)
+                    temp = temp.rstrip(',').strip()
 
                 row_text[val] = temp
 

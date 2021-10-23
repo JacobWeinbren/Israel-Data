@@ -1,6 +1,9 @@
 import requests
-
 from key import token
+
+"""
+Geocodes using ArcGIS Credits
+"""
 
 def arc_process(search):
     try:
@@ -21,7 +24,6 @@ def arc_process(search):
             result = result[0]['location']
             return {'lat':result['y'], 'lng':result['x']}
         else:
-            print(result)
             return None
     except Exception as e: 
         print(e)

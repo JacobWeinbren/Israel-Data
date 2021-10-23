@@ -1,21 +1,17 @@
-import xlrd, re, csv
+import xlrd, re, csv, pyexcel
+
+"""
+Reads Stations Worksheet
+"""
 
 def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col, booth_num_col, settlement_name_col, address_name_col, extra_booth_num_col = None):
 
-    """
-    Reads Workbook
-    """
-
     workbook = xlrd.open_workbook(workbook)
     worksheet = workbook.sheet_by_name(worksheet)
-    outname = '../output/stations/' + str(election_num) + '.csv'
+    outname = '../output/stations/' + str(election_num) + '.xls'
     rows = worksheet.get_rows()
 
-    """
-    Iterates Worksheet
-    """
-
-    data = [['Settlement Number', 'Booth Number', 'Settlement Name', 'Address Name']]
+    data = []
 
     for i in range(skip_rows):
         next(rows)
@@ -50,18 +46,19 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
             settlement_name = str(row[settlement_name_col].value)
             settlement_name = re.sub('\s{2,}', ' ', settlement_name).strip()
 
-            data.append([settlement_number, booth_number, settlement_name, address_name])
+            data.append({
+                "Settlement Number": settlement_number,
+                "Booth Number": booth_number, 
+                "Settlement Name": settlement_name, 
+                "Address Name": address_name
+            })
 
-    """
-    Writes to outfile
-    """
+    #Writes to outfile
 
-    with open(outname, 'w', newline='') as file:
-        writer = csv.writer(file, delimiter=',', lineterminator='\n')
-        writer.writerows(data)
+    pyexcel.save_as(records=data, dest_file_name=outname)
 
 """
-Knsset Elections
+Knesset elections to process
 """
 
 #1996
