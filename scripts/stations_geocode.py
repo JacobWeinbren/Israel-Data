@@ -13,8 +13,8 @@ for name in files:
 
 	#Get File Names
 	name = str(name)
-	inname = '../output/stations/' + name + '.xls'
-	outname = '../output/locations/' + name + '.xls'
+	inname = '../output/stations/' + name + '.tsv'
+	outname = '../output/locations/' + name + '.tsv'
 
 	#Storage
 	records = []

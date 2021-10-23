@@ -1,5 +1,8 @@
 import xlrd, re, csv, pyexcel
 
+xlrd.xlsx.ensure_elementtree_imported(False, None)
+xlrd.xlsx.Element_has_iter = True
+
 """
 Reads Stations Worksheet
 """
@@ -8,7 +11,7 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
 
     workbook = xlrd.open_workbook(workbook)
     worksheet = workbook.sheet_by_name(worksheet)
-    outname = '../output/stations/' + str(election_num) + '.xls'
+    outname = '../output/stations/' + str(election_num) + '.tsv'
     rows = worksheet.get_rows()
 
     data = []

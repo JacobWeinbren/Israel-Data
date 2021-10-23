@@ -8,8 +8,8 @@ Corrects Station Attributes and performs backup
 
 def fix(knesset, values):
     knesset = str(knesset)
-    inname = '../output/stations/' + knesset + '.xls'
-    rename = '../output/stations/original_' + knesset + '.xls'
+    inname = '../output/stations/' + knesset + '.tsv'
+    rename = '../output/stations/original_' + knesset + '.tsv'
 
     #Keep original knesset
     if not os.path.isfile(rename):
@@ -25,6 +25,7 @@ def fix(knesset, values):
 
     for value in values:
         for line in year_data:
+            print(line)
             if line[value['search_attribute']] == value['search_value']:
                 line[value['change_attribute']] = value['change_value']
 
