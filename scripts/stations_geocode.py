@@ -18,6 +18,10 @@ headers = [
 #To reduce API calls
 addresses = {}
 
+"""
+Reads all polling station files
+"""
+
 for name in files:
 	#Get File Names
 	name = str(name)
@@ -26,6 +30,11 @@ for name in files:
 
 	#If to write to file
 	write = True
+
+	"""
+	Works out if to skip to a position within writing,
+	or if to create a new file.
+	"""
 
 	#If there exists a file, check the last line, and then set it as the skip value
 	if os.path.isfile(outname):
@@ -48,11 +57,15 @@ for name in files:
 						write = False
 
 	else:
+		#Create new file
 		with open (outname, 'w') as file:
 			writer = csv.writer(file, delimiter=',', lineterminator='\n')
 			writer.writerows([headers])
 
-	#Read all the in the station addresses
+	"""
+	Reads station addresses
+	"""
+
 	with open(inname, 'r') as file:
 		data_reader = csv.DictReader(file, delimiter=',', lineterminator='\n')
 		next(data_reader)
@@ -68,6 +81,10 @@ for name in files:
 				booth_num = line['Booth Number']
 				settlement_name = line['Settlement Name']
 				address_name = line['Address Name']
+
+				"""
+				If not skipping, geocode the address
+				"""
 
 				if write:	
 					#Creates the search
@@ -97,6 +114,10 @@ for name in files:
 						else:
 							latitude, longitude = output['lat'], output['lng']
 							addresses[search] = (latitude, longitude)
+
+					"""
+					Write to the outfile the metadata
+					"""
 
 					row = {
 						'Settlement Number': settlement_num, 

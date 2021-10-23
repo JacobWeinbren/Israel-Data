@@ -30,17 +30,14 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
             if election_num == 16 or election_num == 17:
                 booth_number = row[booth_num_col].value / 10
             
-            #Numbering for polling booths at stations
+            #Numbering for polling booths at extra exstations for 14
             elif election_num == 14:
                 booth_number = float(
-                    str(
-                        int(round(row[booth_num_col].value, 0))
-                    ) + 
+                    str(int(round(row[booth_num_col].value, 0))) + 
                     "."  +
-                    str(
-                        int(round(row[extra_booth_num_col].value, 0))
-                    )
+                    str(int(round(row[extra_booth_num_col].value, 0)))
                 )    
+
             else:
                 booth_number = row[booth_num_col].value
 
