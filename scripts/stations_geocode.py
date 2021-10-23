@@ -30,8 +30,8 @@ for name in files:
 			#Read attributes
 			settlement_num = line['Settlement Number']
 			booth_num = line['Booth Number']
-			settlement_name = line['Settlement Name']
-			address_name = line['Address Name']
+			settlement_name = str(line['Settlement Name'])
+			address_name = str(line['Address Name'])
 
 			#Creates the search
 			search = address_name + ', ' + settlement_name
