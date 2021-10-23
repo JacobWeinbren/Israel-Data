@@ -90,4 +90,4 @@ for name in files:
 			if i % 100 == 0:
 				print("Knesset", name, "Number", i)
 
-		pyexcel.save_as(records=records, dest_file_name=outname)
+		pyexcel.save_as(records=records, dest_file_name=outname, encoding='utf-8')

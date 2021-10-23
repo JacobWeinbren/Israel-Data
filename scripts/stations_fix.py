@@ -25,11 +25,10 @@ def fix(knesset, values):
 
     for value in values:
         for line in year_data:
-            print(line)
             if line[value['search_attribute']] == value['search_value']:
                 line[value['change_attribute']] = value['change_value']
 
-    pyexcel.save_as(records=year_data, dest_file_name=inname)
+    pyexcel.save_as(records=year_data, dest_file_name=inname, encoding='utf-8')
     
 changes = [{
         'search_attribute': 'Booth Number', 

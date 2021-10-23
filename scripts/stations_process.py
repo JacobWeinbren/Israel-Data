@@ -57,8 +57,7 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
             })
 
     #Writes to outfile
-
-    pyexcel.save_as(records=data, dest_file_name=outname)
+    pyexcel.save_as(records=data, dest_file_name=outname, encoding='utf-8')
 
 """
 Knesset elections to process
