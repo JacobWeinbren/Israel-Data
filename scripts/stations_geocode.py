@@ -1,22 +1,10 @@
 import csv, os.path
 from geocode_arcgis import arc_process
 
-#Files to iterate over
-files = [14,17,19,20,21,22,23,24]
-
-#Headers for output
-headers = [
-	'Settlement Number',
-	'Booth Number',
-	'Settlement Name',
-	'Address Name',
-	'Search',
-	'Latitude',
-	'Longitude'
-]
-
 #To reduce API calls
 addresses = {}
+
+from variables import files, headers
 
 """
 Reads all polling station files
@@ -60,7 +48,7 @@ for name in files:
 		#Create new file
 		with open (outname, 'w') as file:
 			writer = csv.writer(file, delimiter=',', lineterminator='\n')
-			writer.writerows([headers])
+			writer.writerow(headers)
 
 	"""
 	Reads station addresses
@@ -82,10 +70,7 @@ for name in files:
 				settlement_name = line['Settlement Name']
 				address_name = line['Address Name']
 
-				"""
-				If not skipping, geocode the address
-				"""
-
+				#If not skipping, geocode the address
 				if write:	
 					#Creates the search
 					search = address_name + ', ' + settlement_name
@@ -115,10 +100,7 @@ for name in files:
 							latitude, longitude = output['lat'], output['lng']
 							addresses[search] = (latitude, longitude)
 
-					"""
-					Write to the outfile the metadata
-					"""
-
+					#Write metadata to the outfile
 					row = {
 						'Settlement Number': settlement_num, 
 						'Booth Number': booth_num, 

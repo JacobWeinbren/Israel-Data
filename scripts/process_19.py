@@ -1,9 +1,49 @@
-import tabula
+from fastnumbers import fast_real
+from docx import Document
 import pandas as pd
-from functools import reduce
- 
-pdf_path = "../data/19/AllStations.pdf"
- 
-tables = tabula.read_pdf(pdf_path, pages = "all", multiple_tables = True)
-tables = pd.concat(tables)
-tables.to_excel("../output/19_fixed.xlsx", sheet_name='DataSheet', index = False)
+import re
+
+#Read Document
+path = "../data/19/AllStations.docx"
+doc = Document(path)
+
+#To add space after numbers
+rx = re.compile(r'(?<=\d)(?=[^\d\s])|(?<=[^\d\s])(?=\d)')
+
+#Headers
+data = [['\nצורפ ל-', 'בוחרי\nכנסת', 'נגישה\nמיוחדת', '\nנגישה', '\nמקום קלפי', '\nכתובת קלפי', 'סמל\nקלפי', '\nשם ישוב בחירות', 'סמל ישוב\nבחירות', '\nשם ועדה', '\nסמל ועדה']]
+
+for table_num, table in enumerate(doc.tables):
+    for row_num, row in enumerate(table.rows):
+        row_text = [c.text for c in row.cells]
+
+        if (row_text != data[0]):
+
+            #Clear the text
+            for val in range(0,11):
+                row_text[val] = row_text[val].replace("\n", "")
+            
+            #Remove stray brackets
+            row_text[6] = row_text[6].replace("(","")
+
+            #add space to numbers and convert to type
+            for val in range(0,1):
+                temp = row_text[val]
+                temp = fast_real(temp)
+
+                if isinstance(temp, str):
+                    temp = rx.sub(' ', temp)
+                    temp.rstrip(',').strip()
+
+                row_text[val] = temp
+
+            data.append(row_text)
+
+    if table_num % 10 == 0:
+        print("Reading Page", table_num)
+
+#Writes to meta file
+df = pd.DataFrame(data)
+writer = pd.ExcelWriter('../output/meta/19.xlsx', engine='xlsxwriter')
+df.to_excel(writer, sheet_name='DataSheet', index=False)
+writer.save()

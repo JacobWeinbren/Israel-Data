@@ -93,9 +93,9 @@ read_sheet(
 #2013
 read_sheet(
     election_num = 19, 
-    workbook = '../output/19_fixed.xlsx', 
+    workbook = '../output/meta/19.xlsx', 
     worksheet = "DataSheet",
-    skip_rows = 1,
+    skip_rows = 2,
     settlement_num_col = 8,
     booth_num_col = 6,
     settlement_name_col = 9,

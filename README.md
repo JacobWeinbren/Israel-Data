@@ -11,10 +11,14 @@ Mapping Israel's Elections 1992-2021
 
 ## Notes
 
-- The geocoding addresses is the address_name + ', ' + settlement name
+- Searches are attempted twice. First, the geocoding addresses is the address name + ', ' + settlement name. Afterwards, the program tries just the address name.
 - Double Envelopes (Military Ballots) are skipped
 - 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
+
+## Fixes
+
+This project aims to be truthful to the data provided, but in some cases there are errors which need to be corrected. See `stations_fixes.py` for details.
 
 ## Thanks
 
@@ -31,8 +35,11 @@ git clone https://github.com/JacobWeinbren/Israel-Data/
 2. Create venv and enter to scripts
 
 ```bash
+#Create the venv
 python3 -m venv israel_env
+#Enter the venv
 source israel_env/bin/activate
+#Enter scripts
 cd scripts
 ```
 
@@ -42,6 +49,7 @@ cd scripts
 python process_19.py
 python stations_process.py
 python stations_geocode.py
+python stations_analysis.py
 ```
 
 ## Sources
@@ -58,7 +66,7 @@ Stations geocoded using ArcGIS, credits provided by Exeter University.
 | 16th | 2003 | ❌ | 
 | 17th | 2006 | [Knesset](https://bechirot24.bechirot.gov.il/election/Documents/%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA%20%D7%A7%D7%95%D7%93%D7%9E%D7%95%D7%AA/results_17.xls) |
 | 18th | 2009 | ❌ | 
-| 19th | 2013 | [Knesset](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AllStations.pdf) | Requires processing
+| 19th | 2013 | [Knesset](https://www.gov.il/apps/elections/elections-knesset-19/heb/about/AllStations.pdf) | [Adobe Converted](https://www.adobe.com/uk/acrobat/online/pdf-to-word.html)
 | 20th | 2015 | [Knesset](https://www.bechirot20.gov.il/election/Kneset20/Pages/BallotsList.aspx) 
 | 21st | 2019 | [Knesset](https://bechirot21.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx) | Ballot Report |
 | 22nd | 2019 | [Knesset](https://bechirot22.bechirot.gov.il/election/Kneset20/Pages/BallotsList.aspx) | Ballot Report | 
