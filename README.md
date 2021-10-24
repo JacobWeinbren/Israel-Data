@@ -47,6 +47,7 @@ cd scripts
 ```bash
 python process_19.py
 python stations_process.py
+python stations_fix.py
 python stations_geocode.py
 python stations_analysis.py
 ```
