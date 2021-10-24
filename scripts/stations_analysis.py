@@ -1,4 +1,4 @@
-import math, csv, decimal
+import math, pyexcel, decimal
 import geopy.distance
 
 """
@@ -13,9 +13,9 @@ def average_pos(coords):
     y = 0.0
     z = 0.0
 
-    for i, coord in coords():
-        latitude = math.radians(coord.latitude)
-        longitude = math.radians(coord.longitude)
+    for coord in coords:
+        latitude = math.radians(coord['latitude'])
+        longitude = math.radians(coord['longitude'])
 
         x += math.cos(latitude) * math.cos(longitude)
         y += math.cos(latitude) * math.sin(longitude)
@@ -31,10 +31,10 @@ def average_pos(coords):
     central_square_root = math.sqrt(x * x + y * y)
     central_latitude = math.atan2(z, central_square_root)
 
-    mean_location = (
-        math.degrees(central_latitude),
-        math.degrees(central_longitude)
-    )
+    mean_location = {
+        'latitude': math.degrees(central_latitude),
+        'longitude': math.degrees(central_longitude)
+    }
 
     return mean_location
 
@@ -43,7 +43,7 @@ Geometric Distance (KM)
 """
 
 def distance(first, second):
-    return geopy.distance.vincenty(first, second).km
+    return geopy.distance.distance(first, second).km
 
 """
 Reads files
@@ -54,10 +54,9 @@ from variables import files, headers
 data = {}
 
 for name in files:
-    inname = '../output/locations/' + str(name) + '.csv'
-    with open (inname, 'r') as file:
-        year_data = csv.DictReader(file, delimiter=',', lineterminator='\n', fieldnames=headers)
-        data[name] = list(year_data)
+    inname = '../output/locations/' + str(name) + '.tsv'
+    year_data = pyexcel.get_records(file_name=inname)
+    data[name] = year_data
 
 """
 The First Sheet has the distances from the average
@@ -66,66 +65,80 @@ The First Sheet has the distances from the average
 #Lat Long Positions
 positions = {}
 
-with open ('../output/analysis/distances.csv', 'w') as file:
-    writer = csv.writer(file, delimiter=',', lineterminator='\n')
-    headers = []
+#Distances of booths
+distance_data = []
 
-    #Creates header for every year
-    for year in files:
-        headers.append(year)
+#Iterates through datasets
+for year in data.keys():
 
-    writer.writerow(headers)
+    #Get booth position file for a particular year
+    year_file = data[year]
+    for line in year_file:
 
-    #Iterates through datasets
-    for year in data.keys():
+        #All settlement numbers are round numbers
+        settlement_num = int(line["Settlement Number"])
+        booth_num = math.floor(line["Booth Number"])
 
-        #Get booth position file for a particular year
-        year_file = data[year]
-        for line in year_file[1:]:
+        #Create space in data for distances and averages
+        if not settlement_num in positions:
+            positions[settlement_num] = {}
+        if not booth_num in positions[settlement_num]:
+            positions[settlement_num][booth_num] = {}
+        if not year in positions[settlement_num][booth_num]:
+            positions[settlement_num][booth_num][year] = []
+        
+        if line["Latitude"] != '' and line["Longitude"] != '':
+            #Adds to dataset
+            positions[settlement_num][booth_num][year].append({
+                'latitude': float(line["Latitude"]),
+                'longitude': float(line["Longitude"])
+            })
 
-            #All settlement numbers are round numbers
-            settlement_num = int(line["Settlement Number"])
-            #100.0 == 100
-            print(line)
-            booth_num = decimal.Decimal(line["Booth Number"]).normalize()
+#Iterates through booths
+for settlement_num in positions.keys():
+    for booth_num in positions[settlement_num].keys():
 
-            #Create space in data for distances and averages
-            if not settlement_num in positions:
-                positions[settlement_num] = {}
-            if not booth_num in positions[settlement_num]:
-                positions[settlement_num][booth_num] = {}
+        #All positions for booth
+        points = positions[settlement_num][booth_num]
+
+        #Average of booth positions (for instance, between 7.1 and 7.2)
+        for year in points.keys():
+            if points[year] != []:
+                if len(points[year]) == 1:
+                    points[year] = points[year][0]
+                else:   
+                    points[year] = average_pos(points[year])
+
+        #To store distance of booth years from average
+        distances = {}
+
+        years = list(points.keys())
+
+        #Get all positions for booths
+        for index, year in enumerate(years):
             
-            if line["Latitude"] != None and line["Longitude"] != None:
-                #Adds to dataset
-                positions[settlement_num][booth_num][year] = (
-                    line["Latitude"],
-                    line["Longitude"]
-                )
-            else:
-                positions[settlement_num][booth_num][year] = None
-    
-    #Iterates through positions of booths
-    for settlement_num in positions.keys():
-        for booth_num in positions[settlement_num].keys():
-            #All positions for booth
-            positions = positions[settlement_num][booth_num]
+            point = points[year]
 
-            #Average of all positions of booth
-            average = average_pos(positions.values())
+            if index+1 < len(years):
+                second_year = years[index+1]
+                second_point = points[second_year]
+                key = str(year) + ' and ' + str(second_year)
 
-            distances = []
-
-            #Get all positions for booths
-            for year in positions.keys():
-                position = positions[year]
-
-                if position is not None:
+                if (point != []) and (second_point != []):
                     #Distance of booth and average of booth positions, for that booth number
-                    distances.append(distance(position, average))
+                    distances[key] = round(distance(
+                        (point['latitude'], point['longitude']),
+                        (second_point['latitude'], second_point['longitude'])
+                    ), 2)
                 else:
-                    distances.append(None)
-            
-            writer.writerow(distances)
+                    distances[key] = None
+        
+        distances['Settlement Number'] = int(settlement_num)
+        distances['Booth Number'] = booth_num
+        distance_data.append(distances)
+
+outname = '../output/analysis/distances.tsv'
+pyexcel.save_as(records=distance_data, dest_file_name=outname, encoding='utf-8')
 
 """
 The Second Sheet has the addresses (in full)
