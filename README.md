@@ -6,7 +6,7 @@ Mapping Israel's Elections 1992-2021
 
 1. Data is downloaded into the directory `data`, using the sites listed under Sources
 2. Polling Stations are processed using `scripts/stations_process.py`, and tabluated into `input/stations`
-3. Polling Stations are geocoded using `scripts/stations_geocode.py`, and results are produced in `output/locations`. This takes a long time.
+3. Polling Stations are geocoded using `scripts/stations_geocode.py`, and results are produced in `output/locations`
 
 ## Notes
 
