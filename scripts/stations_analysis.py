@@ -4,7 +4,7 @@ from statistics import median
 import utm
 
 """
-Geometric Mean
+Geometric Median
 """
 
 def average_pos(coords):
@@ -12,7 +12,7 @@ def average_pos(coords):
     eastings = []
     northings = []
 
-    temp_value = utm.from_latlon(coords[-1])
+    temp_value = utm.from_latlon(coords[0]['latitude'], coords[0]['longitude'])
     zone_number, zone_letter = temp_value[2], temp_value[3]
 
     for coord in coords:
@@ -73,7 +73,6 @@ for year in data.keys():
 
         #All settlement numbers are round numbers
         settlement_num = int(line["Settlement Number"])
-        print(line["Booth Number"])
         booth_num = math.floor(line["Booth Number"])
 
         #Create space in data for distances and averages
@@ -96,8 +95,9 @@ for year in data.keys():
 #Distances of booths
 distance_data = []
 
-#Iterates through booths
+#Iterates through booths to calculate distances and averages
 for settlement_num in positions.keys():
+    print(settlement_num)
     for booth_num in positions[settlement_num].keys():
 
         #All positions for booth
@@ -129,7 +129,7 @@ for settlement_num in positions.keys():
         #To store distance of booth years from average
         distances = {}
 
-        #Get all positions for booths
+        #Get all distances for booths from average
         for index, year in enumerate(years):
             
             point = points[year]
@@ -142,10 +142,12 @@ for settlement_num in positions.keys():
             else: 
                 distances[str(year)] = None
         
+        #Adds meta data
         distances['Settlement Number'] = int(settlement_num)
         distances['Booth Number'] = booth_num
         distances['Settlement Name'] =  meta[settlement_num][booth_num]
 
+        #Compares with quant data
         if average:
             for item in quant:
                 if (int(item['סמל ישוב']) == distances['Settlement Number']) and (math.floor(item['קלפי']) == distances['Booth Number']):
@@ -161,7 +163,3 @@ for settlement_num in positions.keys():
 
 outname = '../output/analysis/distances.tsv'
 pyexcel.save_as(records=distance_data, dest_file_name=outname, encoding='utf-8')
-
-"""
-The Second Sheet has the addresses (in full)
-"""
