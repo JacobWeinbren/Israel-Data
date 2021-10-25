@@ -1,39 +1,34 @@
 import math, pyexcel, decimal
 import geopy.distance
+from statistics import median
+import utm
 
 """
 Geometric Mean
 """
 
-#From https://stackoverflow.com/questions/37885798/how-to-calculate-the-midpoint-of-several-geolocations-in-python
-
 def average_pos(coords):
 
-    x = 0.0
-    y = 0.0
-    z = 0.0
+    eastings = []
+    northings = []
+
+    temp_value = utm.from_latlon(coords[-1])
+    zone_number, zone_letter = temp_value[2], temp_value[3]
 
     for coord in coords:
-        latitude = math.radians(coord['latitude'])
-        longitude = math.radians(coord['longitude'])
+        utm_coord = utm.from_latlon(coord['latitude'], coord['longitude'])
 
-        x += math.cos(latitude) * math.cos(longitude)
-        y += math.cos(latitude) * math.sin(longitude)
-        z += math.sin(latitude)
+        eastings.append(utm_coord[0])
+        northings.append(utm_coord[1])
 
-    total = len(coords)
+    easting = median(eastings)
+    northing = median(northings)
 
-    x = x / total
-    y = y / total
-    z = z / total
-
-    central_longitude = math.atan2(y, x)
-    central_square_root = math.sqrt(x * x + y * y)
-    central_latitude = math.atan2(z, central_square_root)
+    convert_coords = utm.to_latlon(easting, northing, zone_number, zone_letter)
 
     mean_location = {
-        'latitude': math.degrees(central_latitude),
-        'longitude': math.degrees(central_longitude)
+        'latitude': convert_coords[0],
+        'longitude': convert_coords[1]
     }
 
     return mean_location
@@ -58,15 +53,16 @@ for name in files:
     year_data = pyexcel.get_records(file_name=inname)
     data[name] = year_data
 
+#Quant Data
+quant = pyexcel.get_records(file_name='../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
+
 """
 The First Sheet has the distances from the average
 """
 
 #Lat Long Positions
 positions = {}
-
-#Distances of booths
-distance_data = []
+meta = {}
 
 #Iterates through datasets
 for year in data.keys():
@@ -82,8 +78,10 @@ for year in data.keys():
         #Create space in data for distances and averages
         if not settlement_num in positions:
             positions[settlement_num] = {}
+            meta[settlement_num] = {}
         if not booth_num in positions[settlement_num]:
             positions[settlement_num][booth_num] = {}
+            meta[settlement_num][booth_num] = line["Settlement Name"]
         if not year in positions[settlement_num][booth_num]:
             positions[settlement_num][booth_num][year] = []
         
@@ -93,6 +91,9 @@ for year in data.keys():
                 'latitude': float(line["Latitude"]),
                 'longitude': float(line["Longitude"])
             })
+
+#Distances of booths
+distance_data = []
 
 #Iterates through booths
 for settlement_num in positions.keys():
@@ -109,32 +110,52 @@ for settlement_num in positions.keys():
                 else:   
                     points[year] = average_pos(points[year])
 
+        #Total years for booth
+        years = list(points.keys())
+
+        #Average of booth positions across years (for instance, between 22 and 23)
+        average_points = []
+        for year in years:
+            if points[year] != []:
+                average_points.append(points[year])
+
+        average = None
+        if (len(average_points) > 1):
+            average = average_pos(average_points)
+        elif (len(average_points) == 1):
+            average = average_points[0]
+
         #To store distance of booth years from average
         distances = {}
-
-        years = list(points.keys())
 
         #Get all positions for booths
         for index, year in enumerate(years):
             
             point = points[year]
 
-            if index+1 < len(years):
-                second_year = years[index+1]
-                second_point = points[second_year]
-                key = str(year) + ' and ' + str(second_year)
-
-                if (point != []) and (second_point != []):
-                    #Distance of booth and average of booth positions, for that booth number
-                    distances[key] = round(distance(
-                        (point['latitude'], point['longitude']),
-                        (second_point['latitude'], second_point['longitude'])
-                    ), 2)
-                else:
-                    distances[key] = None
+            if average and points[year] != []:
+                distances[str(year)] = round(distance(
+                    (point['latitude'], point['longitude']),
+                    (average['latitude'], average['longitude'])
+                ), 2)
+            else: 
+                distances[str(year)] = None
         
         distances['Settlement Number'] = int(settlement_num)
         distances['Booth Number'] = booth_num
+        distances['Settlement Name'] =  meta[settlement_num][booth_num]
+
+        if average:
+            for item in quant:
+                if (int(item['סמל ישוב']) == distances['Settlement Number']) and (math.floor(item['קלפי']) == distances['Booth Number']):
+                    point = (average['latitude'], average['longitude'])
+                    quant_pos = (float(item['lat']), float(item['lon']))
+                    quant_distance = distance(
+                        point,
+                        quant_pos
+                    )
+                    distances['Quantitative 22 Distance'] = round(quant_distance, 2)
+
         distance_data.append(distances)
 
 outname = '../output/analysis/distances.tsv'

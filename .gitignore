@@ -3,4 +3,5 @@ __pycache__
 .DS_Store
 .vscode
 data/13
+data/quant
 israel_env

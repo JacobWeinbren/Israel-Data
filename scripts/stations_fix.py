@@ -10,7 +10,7 @@ def fix(knesset, values):
     knesset = str(knesset)
     inname = '../output/stations/' + knesset + '.tsv'
     rename = '../output/stations/original_' + knesset + '.tsv'
-
+    
     #Keep original knesset
     if not os.path.isfile(rename):
         os.rename(inname, rename)
@@ -32,7 +32,7 @@ def fix(knesset, values):
     
 changes = [{
         'search_attribute': 'Booth Number', 
-        'search_value': '1.0 ש',
+        'search_value': '1.0ש',
         'change_attribute': 'Booth Number', 
         'change_value': 1.0
 }]

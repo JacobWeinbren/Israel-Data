@@ -22,23 +22,12 @@ for table_num, table in enumerate(doc.tables):
         row_text = [c.text for c in row.cells]
 
         if (row_text != data[0]):
-
-            #Clear the text
-            for val in range(0,11):
-                row_text[val] = row_text[val].replace("\n", "")
             
-            #Remove stray brackets
-            row_text[6] = row_text[6].replace("(","")
-
-            #add space to numbers and convert to type
+            #Convert to relevant type
             for val in range(0,11):
                 temp = row_text[val]
+                temp = temp.replace("\n", "")
                 temp = fast_real(temp)
-
-                if isinstance(temp, str):
-                    temp = rx.sub(" \\1 ", temp)
-                    temp = temp.rstrip(',').strip()
-
                 row_text[val] = temp
 
             data.append(row_text)

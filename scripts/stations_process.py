@@ -7,6 +7,9 @@ xlrd.xlsx.Element_has_iter = True
 Reads Stations Worksheet
 """
 
+number_sub = re.compile(r'(-?[0-9]+\.?[0-9]*)')
+space_sub = re.compile(r'\s{2,}')
+
 def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col, booth_num_col, settlement_name_col, address_name_col, extra_booth_num_col = None):
 
     workbook = xlrd.open_workbook(workbook)
@@ -44,9 +47,13 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
 
             #Removes multiple spaces and extra spaces
             address_name = str(row[address_name_col].value)
-            address_name = re.sub('\s{2,}', ' ', address_name).strip()
+            address_name = address_name.replace(',', ' ')
+            address_name = number_sub.sub(" \\1 ", address_name)
+            address_name = space_sub.sub(' ', address_name)
+            address_name = address_name.strip()
 
             settlement_name = str(row[settlement_name_col].value)
+            settlement_name = space_sub.sub(' ', settlement_name)
             settlement_name = re.sub('\s{2,}', ' ', settlement_name).strip()
 
             data.append({
@@ -97,7 +104,7 @@ read_sheet(
     skip_rows = 2,
     settlement_num_col = 8,
     booth_num_col = 6,
-    settlement_name_col = 9,
+    settlement_name_col = 7,
     address_name_col = 5,
 )
 
@@ -109,7 +116,7 @@ read_sheet(
     skip_rows = 1,
     settlement_num_col = 2,
     booth_num_col = 4,
-    settlement_name_col = 1,
+    settlement_name_col = 3,
     address_name_col = 5,
 )
 
@@ -121,7 +128,7 @@ read_sheet(
     skip_rows = 1,
     settlement_num_col = 2,
     booth_num_col = 4,
-    settlement_name_col = 1,
+    settlement_name_col = 3,
     address_name_col = 6,
 )
 
@@ -133,7 +140,7 @@ read_sheet(
     skip_rows = 1,
     settlement_num_col = 2,
     booth_num_col = 4,
-    settlement_name_col = 1,
+    settlement_name_col = 3,
     address_name_col = 6,
 )
 
@@ -145,7 +152,7 @@ read_sheet(
     skip_rows = 1,
     settlement_num_col = 5,
     booth_num_col = 9,
-    settlement_name_col = 2,
+    settlement_name_col = 6,
     address_name_col = 11,
 )
 
@@ -157,6 +164,6 @@ read_sheet(
     skip_rows = 1,
     settlement_num_col = 2,
     booth_num_col = 4,
-    settlement_name_col = 1,
+    settlement_name_col = 3,
     address_name_col = 6,
 )
