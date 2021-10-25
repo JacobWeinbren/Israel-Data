@@ -73,6 +73,7 @@ for year in data.keys():
 
         #All settlement numbers are round numbers
         settlement_num = int(line["Settlement Number"])
+        print(line["Booth Number"])
         booth_num = math.floor(line["Booth Number"])
 
         #Create space in data for distances and averages

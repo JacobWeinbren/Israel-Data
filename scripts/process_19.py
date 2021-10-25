@@ -22,6 +22,8 @@ for table_num, table in enumerate(doc.tables):
         row_text = [c.text for c in row.cells]
 
         if (row_text != data[0]):
+
+            row_text[6] = row_text[6].replace("(","")
             
             #Convert to relevant type
             for val in range(0,11):
