@@ -114,30 +114,26 @@ for settlement_num in positions.keys():
         #Total years for booth
         years = list(points.keys())
 
-        #Average of booth positions across years (for instance, between 22 and 23)
-        average_points = []
+        #Recent of booth positions across years (for instance, between 22 and 23)
+        valid_points = []
         for year in years:
             if points[year] != []:
-                average_points.append(points[year])
+                valid_points.append(points[year])
+        if len(valid_points) > 0:
+            recent = valid_points[-1]
+        else:
+            recent = None
 
-        average = None
-        if (len(average_points) > 1):
-            average = average_pos(average_points)
-        elif (len(average_points) == 1):
-            average = average_points[0]
-
-        #To store distance of booth years from average
+        #Get all distances for booths from recent
         distances = {}
-
-        #Get all distances for booths from average
         for index, year in enumerate(years):
             
             point = points[year]
 
-            if average and points[year] != []:
+            if recent and points[year] != []:
                 distances[str(year)] = round(distance(
                     (point['latitude'], point['longitude']),
-                    (average['latitude'], average['longitude'])
+                    (recent['latitude'], recent['longitude'])
                 ), 2)
             else: 
                 distances[str(year)] = None
@@ -148,10 +144,10 @@ for settlement_num in positions.keys():
         distances['Settlement Name'] =  meta[settlement_num][booth_num]
 
         #Compares with quant data
-        if average:
+        if recent:
             for item in quant:
                 if (int(item['סמל ישוב']) == distances['Settlement Number']) and (math.floor(item['קלפי']) == distances['Booth Number']):
-                    point = (average['latitude'], average['longitude'])
+                    point = (recent['latitude'], recent['longitude'])
                     quant_pos = (float(item['lat']), float(item['lon']))
                     quant_distance = distance(
                         point,

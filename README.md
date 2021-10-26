@@ -6,7 +6,8 @@ Mapping Israel's Elections 1992-2021
 
 1. Data is downloaded into the directory `data`, using the sites listed under Sources
 2. Polling Stations are processed using `scripts/stations_process.py`, and tabluated into `input/stations`
-3. Polling Stations are geocoded using `scripts/stations_geocode.py`, and results are produced in `output/locations`
+3. Analysis is done using `scripts/stations_geocode.py` `scripts/stations_analysis.py`, you can see the [Google Sheet Here](https://docs.google.com/spreadsheets/d/1nK0WLTI62sC40vMnKrM-uQXR2qzrTASPwiW3VuMqBrM/edit#gid=416448027)
+4. Positions are found using  `scripts/stations_positions.py `
 
 ## Notes
 
@@ -18,9 +19,6 @@ Mapping Israel's Elections 1992-2021
 
 This project aims to be truthful to the data provided, but in some cases there are errors which need to be corrected. See `stations_fix.py` for details.
 
-## Thanks
-
-Thanks to the Israeli Election Commision for data and support. And many thanks my relatives in particular Gidi for helping so much along the way.
 
 ## Installation
 
@@ -47,6 +45,9 @@ cd scripts
 python process_19.py
 python stations_process.py
 python stations_fix.py
+python stations_positions.py
+
+#Optional for analysis
 python stations_geocode.py
 python stations_analysis.py
 ```
@@ -90,6 +91,12 @@ Results can generally be found through [the most recent Knesset Site](https://be
 | 22nd | 2019 | [Knesset](https://bechirot24.bechirot.gov.il/election/Documents/%D7%9B%D7%A0%D7%A1%D7%AA%2023/%D7%AA%D7%95%D7%A6%D7%90%D7%95%D7%AA%20%D7%94%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA%2022%20%D7%9C%D7%A4%D7%99%20%D7%A7%D7%9C%D7%A4%D7%99%D7%95%D7%AA%20%D7%91%D7%99%D7%A9%D7%95%D7%91%D7%99%D7%9D.xlsx) |
 | 23nd | 2020 | [Knesset](https://bechirot24.bechirot.gov.il/election/Documents/%D7%9B%D7%A0%D7%A1%D7%AA%2024/results_23_by_kalpi.xlsx)
 | 24th | 2021 | [Knesset](https://votes24.bechirot.gov.il/) | By Locality |
+
+## Thanks
+
+Thanks to the Israeli Election Commision for data and support. And many thanks my relatives in particular Gidi for helping so much along the way.
+
+[Quantitative](https://www.odata.org.il/organization/quantitatively) provides a majority of final location data under Creative Commons.
 
 ## License
 
