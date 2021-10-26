@@ -13,6 +13,18 @@ for name in files:
 #Quant Data
 quant = pyexcel.get_records(file_name='../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
 
+#One value doesn't work
+extra = [{
+            'Search': 'שריגים (לי-און) שריגים (לי-און), כפר זוהרים',
+            'Settlement Number': 1325,
+            'Booth Number': 1,
+            'Source': 'Quant',
+            'Latitude': 31.678567,
+            'Longitude': 34.93509            
+}]
+outname = '../output/meta/extra.tsv'
+pyexcel.save_as(records=extra, dest_file_name=outname, encoding='utf-8')
+
 #Storage 
 positions = {}
 
@@ -57,7 +69,6 @@ for settlement_num in positions.keys():
 
         if not found:
             item = positions[settlement_num][booth_num]
-            print(max(item, key=item.get))
             search = ', '.join(positions[settlement_num][booth_num][max(item, key=item.get)])
             output_item['Source'] = 'Google'
             output_item['Search'] = search
@@ -70,7 +81,7 @@ for settlement_num in positions.keys():
                 output_item['Longitude'] = None
         
         output_data.append(output_item)
-        #print(output_item)
+        print(output_item)
 
 outname = '../output/locations/positions.tsv'
 pyexcel.save_as(records=output_data, dest_file_name=outname, encoding='utf-8')
