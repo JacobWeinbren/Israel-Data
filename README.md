@@ -43,7 +43,7 @@ python scripts/stations_process.py
 python stations_fix.py
 ```
 
-6. Get a complete list of every polling station and booth and it's respective location.
+6. Get a complete list of every polling station and booth and it's respective location, placing it in `output/locations`.
 
 ```bash
 python stations_positions.py
@@ -72,6 +72,10 @@ You can see the completed version of this analysis on this [Google Sheet](https:
 - `scripts/geocode_arcgis.py` and `scripts/geocode_google.py` take `scripts/key.py` (in `.gitignore`) and run a process function. The function takes the address and returns a latitude and longitude in Israel.
   - `scripts/geocode_test.py` tests this script works
 - `scripts/variables.py` includes variables common the geocoding scripts
+
+### Map creation
+
+The scripts create a `geojson` hexagonal map, containing all knesset election data, that can be served on a web server.
 
 ## Notes
 
