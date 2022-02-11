@@ -73,8 +73,6 @@ You can see the completed version of this analysis on this [Google Sheet](https:
   - `scripts/geocode_test.py` tests this script works
 - `scripts/variables.py` includes variables common the geocoding scripts
 
-Positions are found using  `scripts/stations_positions.py `
-
 ## Notes
 
 - Double Envelopes (Military Ballots) are skipped
