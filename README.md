@@ -2,25 +2,11 @@
 
 Mapping Israel's Elections 1992-2021
 
-## How it Works
+## Scripts
 
-1. Data is downloaded into the directory `data`, using the sites listed under Sources
-2. Polling Stations are processed using `scripts/stations_process.py`, and tabluated into `input/stations`
-3. Analysis is done using `scripts/stations_geocode.py` `scripts/stations_analysis.py`, you can see the [Google Sheet Here](https://docs.google.com/spreadsheets/d/1nK0WLTI62sC40vMnKrM-uQXR2qzrTASPwiW3VuMqBrM/edit#gid=416448027)
-4. Positions are found using  `scripts/stations_positions.py `
+This is how to recreate the project
 
-## Notes
-
-- Double Envelopes (Military Ballots) are skipped
-- 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
-- Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
-
-## Fixes
-
-This project aims to be truthful to the data provided, but in some cases there are errors which need to be corrected. See `stations_fix.py` for details.
-
-
-## Installation
+### Preparation
 
 1. Clone the repository
 
@@ -39,18 +25,63 @@ source israel_env/bin/activate
 cd scripts
 ```
 
-3. Run scripts
+3. The 19th Knesset election is a PDF. Convert it to an `xlsx`, stored in `output/meta`.
 
 ```bash
-python process_19.py
-python stations_process.py
-python stations_fix.py
-python stations_positions.py
+python stations_19.py
+```
 
-#Optional for analysis
+4. Reads the data from the station addresses and stores in `output/stations`.
+
+```bash
+python scripts/stations_process.py
+```
+
+5. The 19th Knesset election has an incorrect value. This script runs a backup and fixes the error (previously, this was designed to fix more values).
+
+```bash
+python stations_fix.py
+```
+
+6. Get a complete list of every polling station and booth and it's respective location.
+
+```bash
+python stations_positions.py
+```
+
+### Geocoding
+
+These scripts tabulate the locations of all avaliable station addresses and calculate their distants between Knesset elections.
+
+1. Geocode every address and store in `output/locations`
+
+```bash
 python stations_geocode.py
+```
+
+2. Calculate the distances between station locations in each Knesset election and store in `output/analysis`
+
+```bash
 python stations_analysis.py
 ```
+
+You can see the completed version of this analysis on this [Google Sheet](https://docs.google.com/spreadsheets/d/1nK0WLTI62sC40vMnKrM-uQXR2qzrTASPwiW3VuMqBrM/edit#gid=416448027). The main finding is that there is very little variation of polling station locations between Knesset elections.
+
+#### Helper Scripts
+
+- `scripts/geocode_arcgis.py` and `scripts/geocode_google.py` take `scripts/key.py` (in `.gitignore`) and run a process function. The function takes the address and returns a latitude and longitude in Israel.
+  - `scripts/geocode_test.py` tests this script works
+- `scripts/variables.py` includes variables common the geocoding scripts
+
+Positions are found using  `scripts/stations_positions.py `
+
+## Notes
+
+- Double Envelopes (Military Ballots) are skipped
+- 13th, 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
+- Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
+- Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project. 
+
 
 ## Sources
 

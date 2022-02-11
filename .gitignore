@@ -2,6 +2,5 @@ key.py
 __pycache__
 .DS_Store
 .vscode
-data/13
-data/quant
+data/ArcGIS Project
 israel_env

@@ -47,6 +47,7 @@ for settlement_num in positions.keys():
             'Booth Number': booth_num,
         }
 
+        #If location is already avaliable, use it
         for item in quant:
             if (int(item['סמל ישוב']) == settlement_num) and (math.floor(item['קלפי']) == booth_num):
                 found = True
@@ -55,8 +56,10 @@ for settlement_num in positions.keys():
                 output_item['Source'] = 'Quant'
                 output_item['Search'] = item['Address']
 
+        #If location is not avaliable, use Google to geocode it
         if not found:
             item = positions[settlement_num][booth_num]
+            #Gets most recent address
             search = ', '.join(positions[settlement_num][booth_num][max(item, key=item.get)])
             output_item['Source'] = 'Google'
             output_item['Search'] = search
