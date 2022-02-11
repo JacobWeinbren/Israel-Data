@@ -8,8 +8,8 @@ Corrects Station Attributes and performs backup
 
 def fix(knesset, values):
     knesset = str(knesset)
-    inname = '../output/stations/' + knesset + '.tsv'
-    rename = '../output/stations/original_' + knesset + '.tsv'
+    inname = '../../output/stations/' + knesset + '.tsv'
+    rename = '../../output/stations/original_' + knesset + '.tsv'
     
     #Keep original knesset
     if not os.path.isfile(rename):

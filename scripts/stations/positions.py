@@ -6,12 +6,12 @@ from geocode_google import google_process
 data = {}
 
 for name in files:
-    inname = '../output/stations/' + str(name) + '.tsv'
+    inname = '../../output/stations/' + str(name) + '.tsv'
     year_data = pyexcel.get_records(file_name=inname)
     data[name] = year_data
 
 #Quant Data
-quant = pyexcel.get_records(file_name='../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
+quant = pyexcel.get_records(file_name='../../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
 
 #Storage 
 positions = {}
@@ -79,5 +79,5 @@ for settlement_num in positions.keys():
         output_data.append(output_item)
         print(output_item)
 
-outname = '../output/locations/positions.tsv'
+outname = '../../output/locations/positions.tsv'
 pyexcel.save_as(records=output_data, dest_file_name=outname, encoding='utf-8')

@@ -49,12 +49,12 @@ from variables import files, headers
 data = {}
 
 for name in files:
-    inname = '../output/locations/' + str(name) + '.tsv'
+    inname = '../../output/locations/' + str(name) + '.tsv'
     year_data = pyexcel.get_records(file_name=inname)
     data[name] = year_data
 
 #Quant Data
-quant = pyexcel.get_records(file_name='../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
+quant = pyexcel.get_records(file_name='../../data/quant/Results22_Final_Results_with_location_Hebrew.csv')
 
 """
 The First Sheet has the distances from the average
@@ -157,5 +157,5 @@ for settlement_num in positions.keys():
 
         distance_data.append(distances)
 
-outname = '../output/analysis/distances.tsv'
+outname = '../../output/analysis/distances.tsv'
 pyexcel.save_as(records=distance_data, dest_file_name=outname, encoding='utf-8')

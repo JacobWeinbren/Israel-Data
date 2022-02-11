@@ -4,7 +4,7 @@ Mapping Israel's Elections 1992-2021
 
 ## Scripts
 
-This is how to recreate the project
+These are the scripts required to recreate the project.
 
 ### Preparation
 
@@ -25,64 +25,98 @@ source israel_env/bin/activate
 cd scripts
 ```
 
-3. The 19th Knesset election is a PDF. Convert it to an `xlsx`, stored in `output/meta`.
+3. Create folders
 
-```bash
-python stations_19.py
 ```
 
-4. Reads the data from the station addresses and stores in `output/stations`.
-
-```bash
-python scripts/stations_process.py
 ```
 
-5. The 19th Knesset election has an incorrect value. This script runs a backup and fixes the error (previously, this was designed to fix more values).
+### Stations
 
-```bash
-python stations_fix.py
+Collects location for all polling stations
+
+1. Enter Station Scripts
+
+```
+cd stations
 ```
 
-6. Get a complete list of every polling station and booth and it's respective location, placing it in `output/locations`.
+2. The 19th Knesset election is a PDF. Convert it to an `xlsx`, stored in `output/meta`.
 
 ```bash
-python stations_positions.py
+python 19.py
+```
+
+3. Reads the data from the station addresses and stores in `output/stations`.
+
+```bash
+python process.py
+```
+
+4. The 19th Knesset election has an incorrect value. This script runs a backup and fixes the error (previously, this was designed to fix more values).
+
+```bash
+python fix.py
+```
+
+5. Get a complete list of every polling station and booth and it's respective location, placing it in `output/locations`.
+
+```bash
+python positions.py
 ```
 
 ### Geocoding
 
-These scripts tabulate the locations of all avaliable station addresses and calculate their distants between Knesset elections.
+This is not necessary to the replication of the project. These scripts tabulate the locations of all avaliable station addresses and calculate their distants between Knesset elections.
 
-1. Geocode every address and store in `output/locations`
+1. Enter Station Scripts
 
-```bash
-python stations_geocode.py
+```
+cd stations
 ```
 
-2. Calculate the distances between station locations in each Knesset election and store in `output/analysis`
+2.  Geocode every address and store in `output/locations`
 
 ```bash
-python stations_analysis.py
+python geocode.py
+```
+
+3.  Calculate the distances between station locations in each Knesset election and store in `output/analysis`
+
+```bash
+python analysis.py
 ```
 
 You can see the completed version of this analysis on this [Google Sheet](https://docs.google.com/spreadsheets/d/1nK0WLTI62sC40vMnKrM-uQXR2qzrTASPwiW3VuMqBrM/edit#gid=416448027). The main finding is that there is very little variation of polling station locations between Knesset elections.
 
 #### Helper Scripts
 
-- `scripts/geocode_arcgis.py` and `scripts/geocode_google.py` take `scripts/key.py` (in `.gitignore`) and run a process function. The function takes the address and returns a latitude and longitude in Israel.
-  - `scripts/geocode_test.py` tests this script works
-- `scripts/variables.py` includes variables common the geocoding scripts
+- `geocode_arcgis.py` and `geocode_google.py` take `key.py` (in `.gitignore`) and run a process function. The function takes the address and returns a latitude and longitude in Israel.
+  - `geocode_test.py` tests the google script works
+- `variables.py` includes variables common the geocoding scripts
 
 ### Map creation
 
-The scripts create a `geojson` hexagonal map, containing all knesset election data, that can be served on a web server.
+The scripts create a `geojson` hexagonal map, containing all knesset election data. This map can be served on a web server.
+
+You don't need to have ArcGIS to achieve this output. However, for those interested, I will run through the steps used to make the tessellated geojson file.
+
+1. Create a new ArcGIS project and load map of Israel, West Bank and Gaza.
+2. Run `Generate Tesselation`
+   - Shape Hexagon
+   - Extent of Israel Map
+   - Size 5km (squared)
+   - Spatial reference Current Map (Web Coordinates)
+3. Run `Feature to Point` (calculates centroids)
+4. Run `Feature to JSON` with `WGS_1984` to `output/maps/base.geojson`.
+
 
 ## Notes
 
-- Double Envelopes (Military Ballots) are skipped
+- Double Envelopes (Military Ballots) are skipped, as they have no location data
 - 13th, 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
-- Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project. 
+- Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project.
 
 
 ## Sources
@@ -124,6 +158,10 @@ Results can generally be found through [the most recent Knesset Site](https://be
 | 22nd | 2019 | [Knesset](https://bechirot24.bechirot.gov.il/election/Documents/%D7%9B%D7%A0%D7%A1%D7%AA%2023/%D7%AA%D7%95%D7%A6%D7%90%D7%95%D7%AA%20%D7%94%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA%2022%20%D7%9C%D7%A4%D7%99%20%D7%A7%D7%9C%D7%A4%D7%99%D7%95%D7%AA%20%D7%91%D7%99%D7%A9%D7%95%D7%91%D7%99%D7%9D.xlsx) |
 | 23nd | 2020 | [Knesset](https://bechirot24.bechirot.gov.il/election/Documents/%D7%9B%D7%A0%D7%A1%D7%AA%2024/results_23_by_kalpi.xlsx)
 | 24th | 2021 | [Knesset](https://votes24.bechirot.gov.il/) | By Locality |
+
+### Map
+
+Initial map of Israel from [ArcGIS](https://uoe.maps.arcgis.com/home/item.html?id=764a9c6c54914994961e2dacc16e1e67). Wurman Dots designed inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
 
 ## Thanks
 

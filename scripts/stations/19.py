@@ -8,7 +8,7 @@ The 19th Knesset is a PDF, this makes it a .xlsx file
 """
 
 #Read Document
-path = "../data/19/AllStations.docx"
+path = "../../data/19/AllStations.docx"
 doc = Document(path)
 
 #To add space after numbers
@@ -39,6 +39,6 @@ for table_num, table in enumerate(doc.tables):
 
 #Writes to meta file
 df = pd.DataFrame(data)
-writer = pd.ExcelWriter('../output/meta/19.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('../../output/meta/19.xlsx', engine='xlsxwriter')
 df.to_excel(writer, sheet_name='DataSheet', index=False)
 writer.save()

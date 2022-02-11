@@ -4,3 +4,4 @@ __pycache__
 .vscode
 data/ArcGIS Project
 israel_env
+*.pyc

@@ -14,7 +14,7 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
 
     workbook = xlrd.open_workbook(workbook)
     worksheet = workbook.sheet_by_name(worksheet)
-    outname = '../output/stations/' + str(election_num) + '.tsv'
+    outname = '../../output/stations/' + str(election_num) + '.tsv'
     rows = worksheet.get_rows()
 
     data = []
@@ -73,7 +73,7 @@ Knesset elections to process
 #1996
 read_sheet(
     election_num = 14, 
-    workbook = '../data/14/results_14.xls', 
+    workbook = '../../data/14/results_14.xls', 
     worksheet = "הבחירות לכנסת 1996 לפי קלפי",
     skip_rows = 1,
     settlement_num_col = 0,
@@ -86,7 +86,7 @@ read_sheet(
 #2006
 read_sheet(
     election_num = 17, 
-    workbook = '../data/17/results_17.xls', 
+    workbook = '../../data/17/results_17.xls', 
     worksheet = "kalfiyot",
     #Skips double envelopes 
     skip_rows = 150,
@@ -99,7 +99,7 @@ read_sheet(
 #2013
 read_sheet(
     election_num = 19, 
-    workbook = '../output/meta/19.xlsx', 
+    workbook = '../../output/meta/19.xlsx', 
     worksheet = "DataSheet",
     skip_rows = 2,
     settlement_num_col = 8,
@@ -111,7 +111,7 @@ read_sheet(
 #2015
 read_sheet(
     election_num = 20, 
-    workbook = '../data/20/TellThePolls.9.3.xls', 
+    workbook = '../../data/20/TellThePolls.9.3.xls', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
@@ -123,7 +123,7 @@ read_sheet(
 #2019 part a
 read_sheet(
     election_num = 21, 
-    workbook = '../data/21/kalpies_full_report.xls', 
+    workbook = '../../data/21/kalpies_full_report.xls', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
@@ -135,7 +135,7 @@ read_sheet(
 #2019 part b
 read_sheet(
     election_num = 22, 
-    workbook = '../data/22/kalpies_report_tofes_b_6th_edition_15_9.xlsx', 
+    workbook = '../../data/22/kalpies_report_tofes_b_6th_edition_15_9.xlsx', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
@@ -147,7 +147,7 @@ read_sheet(
 #2020
 read_sheet(
     election_num = 23, 
-    workbook = '../data/23/kalpies_report_19_1_20_1.xlsx', 
+    workbook = '../../data/23/kalpies_report_19_1_20_1.xlsx', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 5,
@@ -159,7 +159,7 @@ read_sheet(
 #2021
 read_sheet(
     election_num = 24, 
-    workbook = '../data/24/kalpies_report_tofes_b_18.3.21.xlsx', 
+    workbook = '../../data/24/kalpies_report_tofes_b_18.3.21.xlsx', 
     worksheet = "DataSheet",
     skip_rows = 1,
     settlement_num_col = 2,
