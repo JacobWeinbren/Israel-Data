@@ -142,6 +142,62 @@ readYear(
     military_settlement = 875
 )
 
+readYear(
+    knesset = 20, 
+    book = '../../data/20/results_20.xls', 
+    sheet = 'expb (1)', 
+    skip_to_header = 0,
+    skip_to_values = 0,
+    settlement_col = 'סמל ישוב',
+    booth_col = 'מספר קלפי',
+    military_settlement = 875
+)
+
+readYear(
+    knesset = 21, 
+    book = '../../data/21/21.xls', 
+    sheet = 'Sheet1', 
+    skip_to_header = 0,
+    skip_to_values = 0,
+    settlement_col = 'סמל ישוב',
+    booth_col = 'מספר קלפי',
+    military_settlement = 99999
+)
+
+readYear(
+    knesset = 22, 
+    book = '../../data/22/22.xls', 
+    sheet = 'Sheet1', 
+    skip_to_header = 0,
+    skip_to_values = 0,
+    settlement_col = 'סמל ישוב',
+    booth_col = 'קלפי',
+    military_settlement = 9999
+)
+
+readYear(
+    knesset = 23, 
+    book = '../../data/23/23.xls', 
+    sheet = 'Sheet1', 
+    skip_to_header = 0,
+    skip_to_values = 0,
+    settlement_col = 'סמל ישוב',
+    booth_col = 'קלפי',
+    military_settlement = 9999
+)
+
+readYear(
+    knesset = 24, 
+    book = '../../data/24/24.xls', 
+    sheet = 'Sheet1', 
+    skip_to_header = 0,
+    skip_to_values = 0,
+    settlement_col = 'סמל ישוב',
+    booth_col = 'קלפי',
+    military_settlement = 9999
+)
+
+
 
 #Write to file
 with open('../../output/meta/politics.json', 'w') as f:
