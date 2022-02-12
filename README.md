@@ -28,7 +28,7 @@ cd scripts
 3. Create folders
 
 ```
-
+python setup.py
 ```
 
 ### Stations
@@ -75,13 +75,13 @@ This is not necessary to the replication of the project. These scripts tabulate 
 cd stations
 ```
 
-2.  Geocode every address and store in `output/locations`
+2. Geocode every address and store in `output/locations`
 
 ```bash
 python geocode.py
 ```
 
-3.  Calculate the distances between station locations in each Knesset election and store in `output/analysis`
+3. Calculate the distances between station locations in each Knesset election and store in `output/analysis`
 
 ```bash
 python analysis.py
@@ -103,12 +103,18 @@ You don't need to have ArcGIS to achieve this output. However, for those interes
 
 1. Create a new ArcGIS project and load map of Israel, West Bank and Gaza.
 2. Run `Generate Tesselation`
+   
    - Shape Hexagon
    - Extent of Israel Map
    - Size 5km (squared)
    - Spatial reference Current Map (Web Coordinates)
-3. Run `Feature to Point` (calculates centroids)
-4. Run `Feature to JSON` with `WGS_1984` to `output/maps/base.geojson`.
+3. Run `Feature to JSON` with `WGS_1984` to `output/maps/base.geojson`.
+
+Afterwards, we need to convert the hexagons to points (to save space)
+
+1. Run `JSON to Feature` with `WGS_1984` on `output/maps/data_included.geojson`
+2. Run `Feature to Point` (calculates centroids)
+3. Run `Feature to JSON` with `WGS_1984` to `output/maps/complete.geojson`.
 
 
 ## Notes
@@ -118,12 +124,13 @@ You don't need to have ArcGIS to achieve this output. However, for those interes
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 - Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project.
 
-
 ## Sources
 
 Stations geocoded using ArcGIS, credits provided by Exeter University.
 
 ### Polling Stations
+
+A small number of polling stations are missing - if you have the addresses to polling stations in the crossed out elections, please let me know.
 
 | Knesset | Year |  Polling Stations | Station Notes |
 | :--------------: | :--: | :---------------: | :-----------: |
@@ -162,6 +169,10 @@ Results can generally be found through [the most recent Knesset Site](https://be
 ### Map
 
 Initial map of Israel from [ArcGIS](https://uoe.maps.arcgis.com/home/item.html?id=764a9c6c54914994961e2dacc16e1e67). Wurman Dots designed inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
+
+### Blocs
+
+I have categorised default blocs for all the Knesset elections in [this spreadsheet](https://docs.google.com/spreadsheets/d/1HaPk5R5j6zE8GunhJXCib6hLbinBSyX7R-_yYl0kE5c/edit#gid=0). This was stored in `data/blocs.tsv`. This is based on my subjective opinion - feel welcome to offer suggestions or changes.
 
 ## Thanks
 

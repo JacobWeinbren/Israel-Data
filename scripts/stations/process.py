@@ -28,8 +28,8 @@ def read_sheet(election_num, workbook, worksheet, skip_rows, settlement_num_col,
 
         if settlement_number != '\x1a':
 
-            #16 and 17 numbers are multiplied by 10 
-            if election_num == 16 or election_num == 17:
+            #16 and 17 knesset numbers are multiplied by 10 
+            if election_num in [13, 16, 17]:
                 booth_number = row[booth_num_col].value / 10
             
             #Numbering for polling booths at extra exstations for 14
