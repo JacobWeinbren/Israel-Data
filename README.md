@@ -99,26 +99,58 @@ You can see the completed version of this analysis on this [Google Sheet](https:
 
 The scripts create a `geojson` hexagonal map, containing all knesset election data. This map can be served on a web server.
 
-You don't need to have ArcGIS to achieve this output. However, for those interested, I will run through the steps used to make the tessellated geojson file.
+1. Create a tessellated geojson file.
 
-1. Create a new ArcGIS project and load map of Israel, West Bank and Gaza.
-2. Run `Generate Tesselation`
-   
-   - Shape Hexagon
-   - Extent of Israel Map
-   - Size 5km (squared)
-   - Spatial reference Current Map (Web Coordinates)
-3. Run `Feature to JSON` with `WGS_1984` to `output/maps/base.geojson`.
+  1. Create a new ArcGIS project and load map of Israel, West Bank and Gaza (you can use the one below)
+  2. Run `Generate Tesselation` with the following settings
+    - Shape Hexagon
+    - Extent of Israel Map
+    - Size 5km (squared)
+    - Spatial reference Current Map (Web Coordinates)
+  3. Run `Features to JSON` with `WGS_1984` to `output/maps/base.geojson`.
 
-Afterwards, we need to convert the hexagons to points (to save space)
+2. Now we need to add data to the map
+  
+  1. Enter Map Scripts
+  
+  ```
+  cd maps
+  ```
+  
+  2. Add stations to on base.geojson`to produce `output/maps/stations.geojson`
+     
+  ```
+  python stations.py
+  ```
+  
+  3. Collect election results from all Knesset elections
+  
+  ```
+  python politics.py
+  ```
 
-1. Run `JSON to Feature` with `WGS_1984` on `output/maps/data_included.geojson`
-2. Run `Feature to Point` (calculates centroids)
-3. Run `Feature to JSON` with `WGS_1984` to `output/maps/complete.geojson`.
+  3. Apply tallied data to map
+  
+  ```
+  python data.py
+  ```
+
+3. Afterwards, we need to convert the hexagons to points (to save space)
+  
+  1. Run `JSON to Features` with `WGS_1984` on `output/maps/stations.geojson`
+  2. Run `Features to Point` (calculates centroids)
+  3. Run `Features to JSON` as with `WGS_1984`to `output/maps/points.geojson`
+
+4. Collect election results to produce election data files in `elections`.
+
+  1. Run `python csv_writer.py`
+
+
+You can find the published map [here](https://www.arcgis.com/home/item.html?id=2e3e13c10a7c437983a2e8fd647b0265) 
 
 ## Notes
 
-- Double Envelopes (Military Ballots) are skipped, as they have no location data
+- Double Envelopes (Military Ballots) are coded seperately, as they have no location data
 - 13th, 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 - Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project.
@@ -167,7 +199,7 @@ Results can generally be found through [the most recent Knesset Site](https://be
 
 ### Map
 
-Initial map of Israel from [ArcGIS](https://uoe.maps.arcgis.com/home/item.html?id=764a9c6c54914994961e2dacc16e1e67). Wurman Dots designed inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
+Initial map of Israel from Open Source [Natural Earth]https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/), extracted using `Data -> Export Features`. Wurman Dots inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
 
 ### Blocs
 
@@ -182,4 +214,3 @@ Thanks to the Israeli Election Commision for data and support. And many thanks m
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-

@@ -4,7 +4,7 @@ xlrd.xlsx.ensure_elementtree_imported(False, None)
 xlrd.xlsx.Element_has_iter = True
 
 """
-Reads Stations Worksheet
+Reads Stations Worksheet and collect addresses
 """
 
 number_sub = re.compile(r'(-?[0-9]+\.?[0-9]*)')

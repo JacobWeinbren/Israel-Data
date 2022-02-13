@@ -1,19 +1,25 @@
 import pyexcel, ujson, math, copy
 
+"""
+Reads the Knesset election file, and compiles a JSON file of all election data
+"""
+
 #Load party data
-positions = pyexcel.get_records(file_name='../../data/blocs.tsv')
-party_data = {}
+party_data = pyexcel.get_records(file_name='../../data/blocs.tsv')
+bloc_data = {}
 
 #Records party of each Knesset election
-for position in positions:
+for position in party_data:
     if position['Knesset'] not in party_data:
-        party_data[position['Knesset']] = []
+        bloc_data[position['Knesset']] = []
 
-    item = (position['Knesset Party ID'], position['Excel Name'])
-    party_data[position['Knesset']].append(item)
+    item = (position['Bloc'], position['Excel Name'])
+    bloc_data[position['Knesset']].append(item)
 
+#Stores data and collects running tallies
 output_data = {}
 military_data = {}
+total_data = {}
 
 def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_col, booth_col, military_settlement = None):
     input_data = iter(pyexcel.get_records(file_name=book, sheet_name=sheet, start_row=skip_to_header))
@@ -24,6 +30,7 @@ def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_co
     #Create vote tallies
     output_data[knesset] = {}
     military_data[knesset] = {}
+    total_data[knesset] = {}
 
     for item in input_data:
 
@@ -51,19 +58,26 @@ def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_co
                 output_data[knesset][settlement_num][booth_num] = {}
 
             #Iterate through all possible parties
-            for party in party_data[knesset]: 
+            for party in bloc_data[knesset]: 
 
                 #Party id (for compression)
-                party_id = party[0]
+                party_bloc = party[0]
                 #Excel column code
                 party_excel = party[1]
 
                 #If party doesn't exist in tally, add it and set to 0
-                if party_id not in output_data[knesset][settlement_num][booth_num]:
-                    output_data[knesset][settlement_num][booth_num][party_id] = 0
+                if party_bloc not in output_data[knesset][settlement_num][booth_num]:
+                    output_data[knesset][settlement_num][booth_num][party_bloc] = 0
+
+                #Add up all values
+                if party_bloc not in total_data[knesset]:
+                    total_data[knesset][party_bloc] = 0
 
                 #Add on party vote result
-                output_data[knesset][settlement_num][booth_num][party_id] += item[party_excel]
+                output_data[knesset][settlement_num][booth_num][party_bloc] += item[party_excel]
+
+                #Add up extra total
+                total_data[knesset][party_bloc] += item[party_excel]
 
             print(knesset, settlement_num, booth_num)
 
@@ -197,16 +211,18 @@ readYear(
     military_settlement = 9999
 )
 
-
-
 #Write to file
 with open('../../output/meta/politics.json', 'w') as f:
 	ujson.dump(output_data, f)
 
+#Military ballots
 for knesset in output_data:
     if 0 in output_data[knesset]:
         military_data[knesset] = output_data[knesset][0][0]
 
-#Military ballots
 with open('../../output/meta/military.json', 'w') as f:
 	ujson.dump(military_data, f)
+
+#Total values 
+with open('../../output/meta/total.json', 'w') as f:
+	ujson.dump(total_data, f)

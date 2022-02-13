@@ -5,3 +5,4 @@ __pycache__
 data/ArcGIS Project
 israel_env
 *.pyc
+node_modules

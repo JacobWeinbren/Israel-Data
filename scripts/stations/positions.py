@@ -2,6 +2,10 @@ import pyexcel, math
 from variables import files
 from geocode_google import google_process
 
+"""
+Compiles complete list of settlements, booths and lat/long positions
+"""
+
 #Read Stations
 data = {}
 

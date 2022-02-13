@@ -1,6 +1,10 @@
 import ujson, pyexcel, copy
 from shapely.geometry import shape, Point
 
+"""
+Reads the base map, and works out which stations should go on which feature
+"""
+
 #Load station/booth positions
 positions = pyexcel.get_records(file_name='../../output/locations/positions.tsv')
 
