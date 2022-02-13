@@ -143,8 +143,9 @@ The scripts create a `geojson` hexagonal map, containing all knesset election da
 
 4. Collect election results to produce election data files in `elections`.
 
-  1. Run `python csv_writer.py`
-
+```
+python csv_writer.py
+```
 
 You can find the published map [here](https://www.arcgis.com/home/item.html?id=2e3e13c10a7c437983a2e8fd647b0265) 
 

@@ -10,11 +10,13 @@ bloc_data = {}
 
 #Records party of each Knesset election
 for position in party_data:
-    if position['Knesset'] not in party_data:
+    if position['Knesset'] not in bloc_data:
         bloc_data[position['Knesset']] = []
 
     item = (position['Bloc'], position['Excel Name'])
     bloc_data[position['Knesset']].append(item)
+
+print(bloc_data)
 
 #Stores data and collects running tallies
 output_data = {}
@@ -74,10 +76,10 @@ def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_co
                     total_data[knesset][party_bloc] = 0
 
                 #Add on party vote result
-                output_data[knesset][settlement_num][booth_num][party_bloc] += item[party_excel]
+                output_data[knesset][settlement_num][booth_num][party_bloc] += int(item[party_excel])
 
                 #Add up extra total
-                total_data[knesset][party_bloc] += item[party_excel]
+                total_data[knesset][party_bloc] += int(item[party_excel])
 
             print(knesset, settlement_num, booth_num)
 

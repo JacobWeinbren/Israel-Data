@@ -54,6 +54,8 @@ blocs = {
     'Micro Party': 6
 }
 
+remove = []
+
 #For all stations
 for index, feature in enumerate(stations_map['features']):
 
@@ -70,9 +72,24 @@ for index, feature in enumerate(stations_map['features']):
 
                 #If Knesset election exists and Bloc in Knesset
                 if knesset in politics_map['features'][index]['properties'] and bloc in politics_map['features'][index]['properties'][knesset]:
-                    politics_map['features'][index]['properties'][knesset + '_' + bloc_id] = politics_map['features'][index]['properties'][knesset][bloc]
+                    politics_map['features'][index]['properties'][knesset + '_' + bloc_id] = int(politics_map['features'][index]['properties'][knesset][bloc])
                 else:
                     politics_map['features'][index]['properties'][knesset + '_' + bloc_id] = None
+    else:
+        remove.append(index)
+        
+#Remove props
+for index, feature in enumerate(stations_map['features']):
+    if 'stations' in politics_map['features'][index]['properties']:
+        politics_map['features'][index]['properties'].pop('stations')
+
+    for knesset in range(13,25):
+        knesset = str(knesset)
+        if knesset in politics_map['features'][index]['properties']:
+            politics_map['features'][index]['properties'].pop(knesset)
+
+for index in sorted(remove, reverse=True):
+    del politics_map['features'][index]
 
 #Write to file
 with open('../../output/maps/politics.geojson', 'w') as f:

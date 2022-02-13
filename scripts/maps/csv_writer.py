@@ -21,36 +21,42 @@ for knesset in range(13,25):
     #For all points
     for feature in points_map['features']:
 
-            #Insert all values into storage
-            feature_props = feature['properties']
-            props = {
-                'L': feature_props['F'+knesset+'_0'],
-                'R': feature_props['F'+knesset+'_1'],
-                'C': feature_props['F'+knesset+'_2'],
-                'A': feature_props['F'+knesset+'_3'],
-                'O': feature_props['F'+knesset+'_4'],
-                'S': feature_props['F'+knesset+'_5'],
-                'M': feature_props['F'+knesset+'_6'],
-            }
+        #Insert all values into storage
+        feature_props = feature['properties']
+        props = {
+            'L': feature_props['F'+knesset+'_0'],
+            'R': feature_props['F'+knesset+'_1'],
+            'C': feature_props['F'+knesset+'_2'],
+            'A': feature_props['F'+knesset+'_3'],
+            'O': feature_props['F'+knesset+'_4'],
+            'S': feature_props['F'+knesset+'_5'],
+            'M': feature_props['F'+knesset+'_6'],
+        }
 
-            #Handles errors
-            for prop in props:
-                if props[prop] == '' or props[prop] == None:
-                    props[prop] = 0
+        #Handles errors
+        for prop in props:
+            if props[prop] == '' or props[prop] == None:
+                props[prop] = 0
+            
+            #ArcGIS stores some ints as strings, for some reason
+            props[prop] = int(props[prop])
 
-            #Adds up valid voter turnout
-            props['Total'] = sum(props.values())
+        #Finds localised winner
+        highest = max(props, key=props.get)
 
-            #Finds localised winner
-            props['Highest'] = max(props, key=props.get)
+        #Adds up valid voter turnout
+        props['Total'] = sum(props.values())
 
-            #Finds position
-            props['Lat'] = feature['geometry']['coordinates'][1]
-            props['Long'] = feature['geometry']['coordinates'][0]
+        #Adds highest to data
+        props['Highest'] = highest
 
-            data.append(props)
+        #Finds position
+        props['Lat'] = feature['geometry']['coordinates'][1]
+        props['Long'] = feature['geometry']['coordinates'][0]
+
+        data[knesset].append(props)
 
     with open('../../output/elections/' + knesset + '.csv', 'w') as f:
-        w = csv.DictWriter(f, delimiter=',', fieldnames=data[0].keys())
+        w = csv.DictWriter(f, delimiter=',', fieldnames=data[knesset][0].keys())
         w.writeheader()
-        w.writerows(data)
+        w.writerows(data[knesset])
