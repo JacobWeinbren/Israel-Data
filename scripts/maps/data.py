@@ -45,13 +45,13 @@ for index, feature in enumerate(stations_map['features']):
                     politics_map['features'][index]['properties'][knesset] = dict(Counter(current_tally)+Counter(new_values))
 
 blocs = {
-    'Left of Centre': 0,
-    'Right of Centre': 1,
+    'Left': 0,
+    'Right': 1,
     'Secular Centre': 2,
-    'Arab-Israeli Interests': 3,
+    'Arab-Israeli': 3,
     'Orthodox': 4,
     'Sectoral': 5,
-    'Micro Party': 6
+    'Micro': 6
 }
 
 remove = []

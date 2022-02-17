@@ -1,0 +1,112 @@
+<table>
+	<tr style="height: 28px">
+		<td>Left</td>
+		<td style="width: 150px">
+			<div
+				style="width:{{ l/total * 100 }}px; height:15px; background-color:#c71e1d; color:white; padding:4px 4px 0px 4px; vertical-align:bottom; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="width:{{ 100-(l/total * 100) }}px; height:15px; background-color:#F2F2F2; color:#a69214; vertical-align:bottom; padding:4px 4px 0px 4px; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="
+					display: inline-block;
+					vertical-align: bottom;
+					font-weight: bold;
+					padding-top: 4px;
+					padding-left: 4px;
+				"
+			>
+				{{ ROUND(l/total * 100) }}%
+			</div>
+		</td>
+	</tr>
+	<tr style="height: 28px">
+		<td>Right</td>
+		<td style="width: 150px">
+			<div
+				style="width:{{ r/total * 100 }}px; height:15px; background-color:#18a1cd; color:white; padding:4px 4px 0px 4px; vertical-align:bottom; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="width:{{ 100-(r/total * 100) }}px; height:15px; background-color:#F2F2F2; color:#a69214; vertical-align:bottom; padding:4px 4px 0px 4px; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="
+					display: inline-block;
+					vertical-align: bottom;
+					font-weight: bold;
+					padding-top: 4px;
+					padding-left: 4px;
+				"
+			>
+				{{ ROUND(r/total * 100) }}%
+			</div>
+		</td>
+	</tr>
+	<tr style="height: 28px">
+		<td>Arab-Israeli</td>
+		<td style="width: 150px">
+			<div
+				style="width:{{ a/total * 100 }}px; height:15px; background-color:#09bb9f; color:white; padding:4px 4px 0px 4px; vertical-align:bottom; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="width:{{ 100-(a/total * 100) }}px; height:15px; background-color:#F2F2F2; color:#a69214; vertical-align:bottom; padding:4px 4px 0px 4px; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="
+					display: inline-block;
+					vertical-align: bottom;
+					font-weight: bold;
+					padding-top: 4px;
+					padding-left: 4px;
+				"
+			>
+				{{ ROUND(a/total * 100) }}%
+			</div>
+		</td>
+	</tr>
+	<tr style="height: 28px">
+		<td>Orthodox</td>
+		<td style="width: 150px">
+			<div
+				style="width:{{ o/total * 100 }}px; height:15px; background-color:#00344c; color:white; padding:4px 4px 0px 4px; vertical-align:bottom; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="width:{{ 100-(o/total * 100) }}px; height:15px; background-color:#F2F2F2; color:#a69214; vertical-align:bottom; padding:4px 4px 0px 4px; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="
+					display: inline-block;
+					vertical-align: bottom;
+					font-weight: bold;
+					padding-top: 4px;
+					padding-left: 4px;
+				"
+			>
+				{{ ROUND(o/total * 100) }}%
+			</div>
+		</td>
+	</tr>
+	<tr style="height: 28px">
+		<td>Micro</td>
+		<td style="width: 150px">
+			<div
+				style="width:{{ m/total * 100 }}px; height:15px; background-color:#c4c4c4; color:white; padding:4px 4px 0px 4px; vertical-align:bottom; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="width:{{ 100-(m/total * 100) }}px; height:15px; background-color:#F2F2F2; color:#a69214; vertical-align:bottom; padding:4px 4px 0px 4px; font-weight:bold; display:inline-block; float:left;"
+			></div>
+			<div
+				style="
+					display: inline-block;
+					vertical-align: bottom;
+					font-weight: bold;
+					padding-top: 4px;
+					padding-left: 4px;
+				"
+			>
+				{{ ROUND(m/total * 100) }}%
+			</div>
+		</td>
+	</tr>
+</table>

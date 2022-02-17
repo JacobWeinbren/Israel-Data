@@ -10,13 +10,11 @@ bloc_data = {}
 
 #Records party of each Knesset election
 for position in party_data:
-    if position['Knesset'] not in bloc_data:
-        bloc_data[position['Knesset']] = []
+    if position['Knesset #'] not in bloc_data:
+        bloc_data[position['Knesset #']] = []
 
     item = (position['Bloc'], position['Excel Name'])
-    bloc_data[position['Knesset']].append(item)
-
-print(bloc_data)
+    bloc_data[position['Knesset #']].append(item)
 
 #Stores data and collects running tallies
 output_data = {}

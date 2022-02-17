@@ -208,10 +208,18 @@ I have categorised default blocs for all the Knesset elections in [this spreadsh
 
 ## Thanks
 
-Thanks to the Israeli Election Commision for data and support. And many thanks my relatives in particular Gidi for helping so much along the way.
+Thanks to the Israeli Election Commision for data and support. And many thanks my relatives in particular Gidi and Michal for helping to retrieve data and explaining how elections worked.
 
-[Quantitative](https://www.odata.org.il/organization/quantitatively) provides a majority of final location data under Creative Commons.
+Thank you Hovav Dror at [Quantitative](https://www.odata.org.il/organization/quantitatively) and Lior Kaplan at [Open Source Consulting](https://kaplanopensource.co.il/) for providing location data under CC and much needed advice.
+
+Many thanks to my friends, in particular Chris Terry and T.S. Kovak, for help along the way.
+
+## Sources
+
+[Hebrew Wikipedia](https://he.wikipedia.org/) provides the Hebrew symbols for ballots and common English names.
+
+[Isael Democracy Institute](https://en.idi.org.il/israeli-elections-and-parties/elections/1988/) provided the 12th Knesset Election results (in aggregate).
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[GNU](https://www.gnu.org/licenses/gpl-3.0.en.html)
