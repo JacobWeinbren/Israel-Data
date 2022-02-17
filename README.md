@@ -200,7 +200,7 @@ Results can generally be found through [the most recent Knesset Site](https://be
 
 ### Map
 
-Initial map of Israel from Open Source [Natural Earth]https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/), extracted using `Data -> Export Features`. Wurman Dots inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
+Initial map of Israel from Open Source [Natural Earth](https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/), extracted using `Data -> Export Features`. Wurman Dots inspired by ArcGIS [blog post](https://www.esri.com/arcgis-blog/products/js-api-arcgis/mapping/wurman-dots-bringing-back-the-60s/).
 
 ### Blocs
 
