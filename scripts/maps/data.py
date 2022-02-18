@@ -1,5 +1,6 @@
 import ujson, copy, csv
 from collections import Counter
+from variables import blocs
 
 """
 Add election results to the stations gejson file
@@ -43,16 +44,6 @@ for index, feature in enumerate(stations_map['features']):
 
                     #Merge current tally with new values
                     politics_map['features'][index]['properties'][knesset] = dict(Counter(current_tally)+Counter(new_values))
-
-blocs = {
-    'Left': 0,
-    'Right': 1,
-    'Secular Centre': 2,
-    'Arab-Israeli': 3,
-    'Orthodox': 4,
-    'Sectoral': 5,
-    'Micro': 6
-}
 
 remove = []
 

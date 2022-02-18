@@ -117,7 +117,7 @@ The scripts create a `geojson` hexagonal map, containing all knesset election da
   cd maps
   ```
   
-  2. Add stations to on base.geojson`to produce `output/maps/stations.geojson`
+  2. Add stations to on `base.geojson` to produce `output/maps/stations.geojson`
      
   ```
   python stations.py
@@ -155,6 +155,7 @@ You can find the published map [here](https://www.arcgis.com/home/item.html?id=2
 - 13th, 16th and 17th Knesset requires dividing by 10 to keep ballot numbers consistent
 - Decimal points suggest multiple booths at one polling station. Though sometimes multiple stations can also be at one address.
 - Default blocs are based on the [IDI](https://en.idi.org.il/israeli-elections-and-parties/elections/1992/), the [Historic Israeli Elections Project](https://github.com/shimonro/israelElections) and consideration from myself and those who provided feedback on this project.
+- The 13th Knesset election required some extra transcription of the notes in CBS Series '926', entered on [this sheet](https://docs.google.com/spreadsheets/d/1YpRU_1qzTBSYkZb2JctukHh3zEd7Ith51dWXYGq30gk/edit?usp=sharing) and saved in `13_Corrected`.
 
 ## Sources
 

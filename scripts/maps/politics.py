@@ -1,4 +1,5 @@
-import pyexcel, ujson, math, copy
+import pyexcel, ujson, math, copy, csv
+from variables import blocs
 
 """
 Reads the Knesset election file, and compiles a JSON file of all election data
@@ -19,7 +20,17 @@ for position in party_data:
 #Stores data and collects running tallies
 output_data = {}
 military_data = {}
-total_data = {}
+
+#12th Knesset from https://docs.google.com/spreadsheets/d/1HaPk5R5j6zE8GunhJXCib6hLbinBSyX7R-_yYl0kE5c/edit#gid=1269067115
+total_data = {
+    12: {
+        'Left': 839221,
+        'Right': 869338,
+        'Secular Centre': 39538,
+        'Arab Israeli': 144739,
+        'Micro': 55500
+    }
+}
 
 def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_col, booth_col, military_settlement = None):
     input_data = iter(pyexcel.get_records(file_name=book, sheet_name=sheet, start_row=skip_to_header))
@@ -35,28 +46,33 @@ def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_co
     for item in input_data:
 
         #Checks settlement is valid
-        if item[settlement_col] != '.' and (type(item[settlement_col]) == int or item[settlement_col].isdigit()):
+        valid = False
+        if item[settlement_col] != '.':
+            valid = True
 
-            #Get settlement and booth number
-            booth_num = item[booth_col]
-
-            #Some stations are multiplied by 10
-            if knesset in [13, 16, 17]:
-                booth_num = booth_num / 10
-
-            settlement_num = int(item[settlement_col])
-            booth_num = math.floor(booth_num)
+        if type(item[settlement_col]) == int or item[settlement_col].isdigit() or item[settlement_col] == '.':
             
-            if settlement_num == military_settlement:
-                settlement_num = 0
-                booth_num = 0
+            if valid:
+                #Get settlement and booth number
+                booth_num = item[booth_col]
 
-            if settlement_num not in output_data[knesset]:
-                output_data[knesset][settlement_num] = {}
+                #Some stations are multiplied by 10
+                if knesset in [13, 16, 17]:
+                    booth_num = booth_num / 10
 
-            if booth_num not in output_data[knesset][settlement_num]:
-                output_data[knesset][settlement_num][booth_num] = {}
+                settlement_num = int(item[settlement_col])
+                booth_num = math.floor(booth_num)
+                
+                if settlement_num == military_settlement:
+                    settlement_num = 0
+                    booth_num = 0
 
+                if settlement_num not in output_data[knesset]:
+                    output_data[knesset][settlement_num] = {}
+
+                if booth_num not in output_data[knesset][settlement_num]:
+                    output_data[knesset][settlement_num][booth_num] = {}
+            
             #Iterate through all possible parties
             for party in bloc_data[knesset]: 
 
@@ -65,25 +81,26 @@ def readYear(knesset, book, sheet, skip_to_header, skip_to_values, settlement_co
                 #Excel column code
                 party_excel = party[1]
 
-                #If party doesn't exist in tally, add it and set to 0
-                if party_bloc not in output_data[knesset][settlement_num][booth_num]:
-                    output_data[knesset][settlement_num][booth_num][party_bloc] = 0
+                if valid:
+                    #If party doesn't exist in tally, add it and set to 0
+                    if party_bloc not in output_data[knesset][settlement_num][booth_num]:
+                        output_data[knesset][settlement_num][booth_num][party_bloc] = 0
+
+                    #Add on party vote result
+                    output_data[knesset][settlement_num][booth_num][party_bloc] += int(item[party_excel])
 
                 #Add up all values
                 if party_bloc not in total_data[knesset]:
                     total_data[knesset][party_bloc] = 0
 
-                #Add on party vote result
-                output_data[knesset][settlement_num][booth_num][party_bloc] += int(item[party_excel])
-
                 #Add up extra total
                 total_data[knesset][party_bloc] += int(item[party_excel])
 
-            print(knesset, settlement_num, booth_num)
+                print(knesset, settlement_num, booth_num)
 
 readYear(
     knesset = 13, 
-    book = '../../data/13/Election results 1992 by polling station.xls', 
+    book = '../../data/13/13_Corrected.xls', 
     sheet = '1992pol', 
     skip_to_header = 2,
     skip_to_values = 1,
@@ -215,14 +232,54 @@ readYear(
 with open('../../output/meta/politics.json', 'w') as f:
 	ujson.dump(output_data, f)
 
-#Military ballots
-for knesset in output_data:
-    if 0 in output_data[knesset]:
-        military_data[knesset] = output_data[knesset][0][0]
+"""
+Tallies swings from each Knesset election
+"""    
+
+for knesset in list(total_data.keys())[1:]:
+
+    knesset = int(knesset)
+    temp_data = []
+
+    old_values = total_data[knesset-1]
+    new_values = total_data[knesset]
+
+    old_total = sum(old_values.values())
+    new_total = sum(new_values.values())
+
+    print(new_total)
+
+    for bloc in blocs.keys():
+        
+        #If bloc exists in past
+        if bloc in old_values and bloc not in new_values:
+            temp_data.append({
+                "Bloc": bloc,
+                "Swing": -round((old_values[bloc] / old_total) * 100, 3)
+            })
+        
+        #If bloc exists in future
+        elif bloc not in old_values and bloc in new_values:
+           temp_data.append({
+                "Bloc": bloc,
+                "Swing": round((new_values[bloc] / new_total) * 100, 3)
+            })
+
+        #If bloc exists in both
+        elif bloc in old_values and bloc in new_values:
+            temp_data.append({
+                "Bloc": bloc,
+                "Swing": round(((new_values[bloc] / new_total) * 100)- ((old_values[bloc] / old_total) * 100), 3)
+            })
+
+    with open('../../output/swings/' + str(knesset) + '.csv', 'w') as f:
+        w = csv.DictWriter(f, delimiter=',', fieldnames=["Bloc", "Swing"])
+        w.writeheader()
+        w.writerows(temp_data)
+
+#Military
+    #if 0 in output_data[knesset]:
+        #military_data[knesset] = output_data[knesset][0][0]
 
 with open('../../output/meta/military.json', 'w') as f:
 	ujson.dump(military_data, f)
-
-#Total values 
-with open('../../output/meta/total.json', 'w') as f:
-	ujson.dump(total_data, f)
